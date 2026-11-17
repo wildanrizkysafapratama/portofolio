@@ -1,0 +1,176 @@
+Wildan Rizky Safa Pratama
+Malang, Indonesia | 087850258424 | wildanrizkysafapratama@gmail.com
+LinkedIn: linkedin.com/in/wildan-rizky-safa-pratama-bb2b0541b
+
+RINGKASAN PROFESIONAL
+
+Sarjana Teknik Elektro Universitas Negeri Malang (IPK 3.84/4.00) dengan pengalaman
+merancang sistem elektrik dan elektronika pada 6 proyek rekayasa:
+robot bawah air, drone VTOL otonom, drone kamikaze, dan robot darat. Berpengalaman
+dalam desain PCB, arsitektur distribusi daya, integrasi sensor (GPS RTK, LiDAR, IMU),
+perancangan antarmuka komunikasi (UART, I2C, PWM), serta pemilihan komponen berbasis
+datasheet. Kontribusi teknis menghasilkan Juara 2 KIDN 2025 dan Best Spirit Top 8
+Nasional KRTI VTOL 2026. Menjabat sebagai Head Senior Electric pada Tim Wisanggeni.
+
+Tertarik pada posisi Electrical Engineer, Hardware Engineer, Systems Engineer, atau
+Project Engineer.
+
+PENGALAMAN PROFESIONAL DAN PROYEK
+
+Head Senior Electric dan Safety Pilot - Drone VTOL KRTI, Tim Wisanggeni
+April 2026 - sekarang
+- Merancang arsitektur elektrik drone VTOL: distribusi daya baterai LiPo 4S 14.8V
+  melalui Power Distribution Board ke 4 unit ESC 40A dan 4 motor T-Motor MN3510 700KV.
+- Merancang regulasi tegangan bertingkat: BEC 5V 6A (rail 12V), stepdown 5V 3A, dan
+  stepdown 3.3V untuk beban berbeda.
+- Menyediakan daya dan integrasi fisik companion computer Jetson Orin Nano Super 8GB
+  melalui rail 12V, termasuk jalur USB untuk LiDAR 2D RPLIDAR C1.
+- Mengimplementasikan GPS RTK menggunakan receiver HERE 3+ dan HERE 4 dengan antena
+  Beitian sehingga mencapai akurasi posisi 1 cm.
+- Menyederhanakan sistem elektrik dibanding tahun sebelumnya: aktuator servo dan LED
+  dihubungkan langsung ke flight controller, serta mengurangi 9 LED terpisah menjadi
+  2 LED addressable.
+- Memimpin bidang elektrik tim: penentuan arsitektur sistem, standar pemilihan komponen,
+  dan koordinasi kebutuhan elektrik dengan bidang mekanik serta program.
+- Menjalankan operasi penerbangan misi otonom: pre-flight check, arming, monitoring
+  telemetri, dan pengambilalihan kendali untuk pendaratan.
+- Pencapaian: Best Spirit Top 8 Nasional KRTI VTOL 2026 (KRTI Belmawa).
+
+Electrical Engineer Intern - PT Otomasi Cerdas Nusantara (OCN)
+Malang, Indonesia | Februari 2026 - Mei 2026 (3 bulan)
+- Mengembangkan sistem monitoring kualitas air sungai untuk pengolahan limbah pabrik tahu,
+  mencakup pemilihan sensor, pengkabelan, dan integrasi perangkat.
+- Mengerjakan sistem kelistrikan dan sensor pada Drydome, alat pengering skala industri.
+- Mengembangkan sistem elektrik mobil otonom jarak jauh: modul komunikasi GSM, kamera,
+  deteksi objek untuk human following, dan kontrol jarak jauh berbasis ESP32.
+
+Head Senior Electric - Robot Tematik KRTMI, Tim Wisanggeni
+Januari 2026 - April 2026 (paralel dengan program magang)
+- Merancang arsitektur dua papan kontrol (Master-Slave) berbasis ESP32-S3 DevKitC-10,
+  terhubung melalui bus IDC 8-pin untuk memisahkan beban komputasi dan aktuator.
+- Merancang PCB Master: IMU MPU6050, 4 kanal antarmuka motor, pembacaan tegangan 6 kanal,
+  regulator 5 V, dan konektor komunikasi.
+- Merancang PCB Slave: 4 kanal antarmuka motor, sensor line follower, dan kontrol vakum
+  berbasis MOSFET IRLZ44N dengan tombol manual.
+- Mengendalikan 4 motor PG45 melalui driver BTS7960 dengan pemanfaatan fitur penuh:
+  PWM, on/off, pembacaan arus, dan pembacaan encoder per motor.
+- Mengintegrasikan MPU6050 dan encoder motor untuk visual odometri.
+- Hasil pengujian: robot bergerak lurus dengan koreksi gyro dan encoder.
+
+Electrical Engineer - Drone KIDN Tepat Sasaran, Tim Kazero
+Desember 2025
+- Merancang dan merakit sistem elektrik drone kamikaze dengan muatan dummy 750 gram,
+  jarak terbang 60 meter, target banner.
+- Menentukan konfigurasi motor, distribusi daya, dan melakukan perakitan konektor
+  Molex/JST-GH.
+- Pencapaian: Juara 2 KIDN 2025 kategori Tepat Sasaran.
+
+Electrical Engineer - Drone VTOL KRTI, Tim Kazero
+Juli - Desember 2025
+- Merancang PCB kustom dengan 4 sensor ultrasonik untuk pengukuran jarak empat arah,
+  2 elektromagnet, 2 servo, 1 sensor ultrasonik ketinggian, dan kontrol 9 LED.
+- Mengintegrasikan flight controller Orange Cube Pixhawk, power module, dan pembacaan
+  arus/tegangan.
+- Mengoperasikan konfigurasi drone melalui Mission Planner dan melakukan perakitan
+  konektor Molex/JST-GH.
+- Pencapaian: partisipan seleksi wilayah KRTI VTOL 2025.
+
+Electrical Engineer (Anggota Tim Riset) - Robot Bawah Air, Tim Mizuro
+18 Desember 2024 - 9 Juli 2025
+- Merancang sistem keselamatan baterai melalui tiga generasi rancangan: V1 auto-cutoff
+  berbasis rangkaian diskret tanpa mikrokontroler (pembagi tegangan, BC547, TIP41C,
+  relay SRD-5VDC, regulator VX7805, dioda flyback 1N4007); V2 dengan mikrokontroler
+  sehingga ambang cutoff dapat diatur lewat perangkat lunak; New Generation berbasis
+  ESP32-S3 dengan logic relay RA-5W-K, pembacaan arus (ACS712ELCTR via ADC ADS1115),
+  dan pembacaan tegangan untuk pemantauan baterai secara real-time.
+- Menyusun arsitektur daya: baterai LiPo 6S melalui fuse dan Power Brick menuju Power
+  Distribution, lalu 6 ESC ke 6 motor BLDC bawah air, dengan UBEC 12 V untuk Jetson
+  Orin Nano.
+- Menyusun arsitektur sinyal: kamera via USB ke Jetson Orin Nano, komunikasi dua arah
+  Jetson-Cube via USB, PWM ke ESC dan I2C ke sensor ultrasonik bawah air, serta kabel
+  LAN ke permukaan.
+- Merancang sistem deteksi kebocoran air (sensor hujan) dan konsep deteksi berbasis
+  perubahan tekanan pada enclosure vakum.
+- Mempelajari sistem propulsi bawah air secara mandiri: motor BLDC 3-fasa, ESC, dan
+  konfigurasi motor.
+
+PENGALAMAN ORGANISASI DAN KEPEMIMPINAN
+
+Head Senior Electric - Tim Wisanggeni (riset robotik kampus)
+Januari 2026 - sekarang
+- Memimpin bidang elektrik tim pada proyek robot tematik KRTMI dan drone VTOL KRTI.
+- Menetapkan arsitektur sistem daya, standar pemilihan komponen, dan pembagian kerja
+  bidang elektrik.
+- Mengoordinasikan kebutuhan elektrik dengan bidang mekanik dan program.
+
+Mentor Riset Robot Bawah Air (tidak resmi) - Tim Mizuro
+2025 - sekarang
+- Membimbing anggota baru dalam perancangan sistem elektrik robot bawah air, mencakup
+  pemilihan motor BLDC, ESC, distribusi daya, dan pembuatan PCB.
+
+PENDIDIKAN
+
+S1 Teknik Elektro - Universitas Negeri Malang
+2023 - 2026 | IPK: 3.84/4.00
+Fokus: sistem tenaga, elektronika, sistem kendali, mikrokontroler, dan instrumentasi.
+
+PENGHARGAAN DAN PRESTASI
+
+- Juara 2 KIDN 2025 kategori Tepat Sasaran (Desember 2025) - drone kamikaze muatan 750 gram
+- Best Spirit Top 8 Nasional KRTI VTOL 2026 - KRTI Belmawa
+- Partisipan seleksi wilayah KRTI VTOL 2025
+
+SERTIFIKASI
+
+Junior Remote Pilot - Aeronautical Knowledge Course (sUAS)
+Federasi Aero Sport Indonesia (FASI) - UAV-Drone Committee | Agustus 2025
+ID Kredensial: 20260936-JRPFASI | Skor ujian: 95
+- Kursus pengetahuan aeronautika untuk Small Unmanned Aircraft Systems, compliant dengan
+  DGCA CASR Part 107 dan FAI Sporting Code Section 12.
+- Materi: CASR Part 61/91/107, PM 37/2020 (aturan operasi UAV di ruang udara Indonesia),
+  mekanisme perizinan dan persetujuan ruang udara, teori aerodinamika dasar, meteorologi,
+  Aeronautical Decision Making (ADM) & Crew Resource Management (CRM), klasifikasi ruang
+  udara & operasi bandara (KKOP & VFR Routes), risk assessment, serta prosedur pre-flight
+  inspection UAS.
+
+KEAHLIAN TEKNIS
+
+Kelistrikan dan Hardware:
+- Desain PCB (power board, control board, sensor interface)
+- Arsitektur distribusi daya dan perhitungan beban
+- Wiring harness, perakitan konektor Molex/JST-GH, soldering
+- Pemilihan komponen berbasis datasheet dan spesifikasi teknis
+
+Protokol dan Antarmuka Komunikasi:
+- UART, I2C, PWM, USB
+
+Regulasi dan Keselamatan Penerbangan:
+- CASR Part 61, 91, 107 dan PM 37/2020 (operasi UAV di ruang udara Indonesia)
+- Pre-flight inspection, risk assessment, dan aeronautical decision making
+
+Sistem dan Platform:
+- ArduPilot/PX4, Mission Planner
+- Flight controller Orange Cube Pixhawk (ArduPilot/PX4)
+- Raspberry Pi Pico, ESP32, Jetson Orin Nano
+
+Sensor dan Aktuator:
+- GPS RTK (HERE 3+, HERE 4), LiDAR 2D RPLIDAR C1, LiDAR TF Luna, IMU BNO055
+- Motor BLDC, ESC, servo, motor DC dengan driver BTS7960
+
+Perangkat Lunak:
+- EasyEDA (desain skematik dan layout PCB)
+- Dasar pemrograman C/C++ dan Python
+- Microsoft Office, Google Workspace
+
+KEAHLIAN NON-TEKNIS
+
+- Manajemen proyek dan koordinasi tim lintas bidang
+- Analisis dokumen teknis dan spesifikasi (juknis, datasheet, standar)
+- Troubleshooting lapangan dan pengambilan keputusan cepat
+- Komunikasi teknis dan presentasi
+- Kemampuan belajar mandiri (self-directed learning)
+
+BAHASA
+
+- Indonesia: Native
+- Inggris: Dasar (basic), aktif meningkatkan

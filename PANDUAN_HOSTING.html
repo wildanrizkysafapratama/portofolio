@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panduan Hosting Website Portofolio — GitHub Pages</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --ink:#111827; --ink2:#374151; --ink3:#6b7280;
+    --line:#e5e7eb; --line2:#d1d5db; --accent:#0d6b5e; --accent2:#0a574d;
+    --accent-soft:#e9f7f3; --warn:#b45309; --warn-soft:#fffbeb;
+    --danger:#b91c1c; --danger-soft:#fef2f2; --info:#1d4ed8; --info-soft:#eff6ff;
+  }
+  *{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--bg); color:var(--ink); line-height:1.68;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .page{ max-width:900px; margin:0 auto; padding:34px 22px 90px; }
+
+  header.top{
+    background:linear-gradient(135deg,#0d6b5e,#0a4d43); color:#fff;
+    border-radius:16px; padding:32px 30px; margin-bottom:28px;
+  }
+  header.top .kick{ font-size:.72rem; letter-spacing:.16em; text-transform:uppercase;
+                    opacity:.8; font-weight:800; margin-bottom:8px; }
+  header.top h1{ margin:0 0 10px; font-size:1.6rem; letter-spacing:-.025em; line-height:1.25; }
+  header.top p{ margin:0; color:#ffffff; opacity:.95; font-size:.94rem; }
+
+  h2{ font-size:1.2rem; margin:38px 0 10px; padding-top:16px;
+      border-top:3px solid var(--accent); letter-spacing:-.015em; }
+  h2 .num{ display:inline-block; background:var(--accent); color:#fff; font-size:.78rem;
+      width:27px; height:27px; line-height:27px; text-align:center; border-radius:7px;
+      margin-right:10px; vertical-align:2px; font-weight:800; }
+  h3{ font-size:.98rem; margin:24px 0 8px; }
+  p, li{ font-size:.93rem; color:var(--ink2); }
+  .lead{ color:var(--ink3); margin:4px 0 16px; }
+
+  .card{ background:var(--card); border:1px solid var(--line); border-radius:12px;
+         padding:18px 21px; margin:14px 0; }
+  .card h3{ margin-top:0; }
+
+  table{ width:100%; border-collapse:collapse; margin:14px 0; font-size:.86rem; }
+  th, td{ border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top; }
+  th{ background:#f0f2f5; font-weight:800; font-size:.78rem; letter-spacing:.04em;
+      text-transform:uppercase; color:var(--ink3); }
+  tr:nth-child(even) td{ background:#fafbfc; }
+  td b{ color:var(--ink); }
+
+  code{ background:#eef1f6; padding:2px 7px; border-radius:5px; font-size:.85em;
+        font-family:ui-monospace,Consolas,"Courier New",monospace; color:#0b3d70; }
+  pre{ background:#0f1720; color:#e6edf5; border-radius:10px; padding:15px 17px;
+       overflow-x:auto; font-size:.8rem; line-height:1.6;
+       font-family:ui-monospace,Consolas,"Courier New",monospace; }
+  pre code{ background:none; color:inherit; padding:0; font-size:1em; }
+
+  .warn,.ok,.info,.danger{ border-radius:10px; padding:14px 17px; margin:15px 0;
+      font-size:.9rem; border-left:4px solid; }
+  .warn{ background:var(--warn-soft); border-color:#f59e0b; color:#7c3f00; }
+  .ok{ background:var(--accent-soft); border-color:#10b981; color:#0a4d43; }
+  .info{ background:var(--info-soft); border-color:#3b82f6; color:#123f7a; }
+  .danger{ background:var(--danger-soft); border-color:#ef4444; color:#7f1d1d; }
+  .warn > b:first-child,.ok > b:first-child,.info > b:first-child,.danger > b:first-child{ display:block; margin-bottom:5px; font-size:.94rem; }
+  .warn code,.ok code,.info code,.danger code{ background:rgba(0,0,0,.07); color:inherit; }
+
+  .steps{ counter-reset:st; list-style:none; padding:0; margin:14px 0; }
+  .steps > li{
+    counter-increment:st; position:relative; padding:14px 0 14px 46px;
+    border-bottom:1px dashed var(--line); font-size:.92rem;
+  }
+  .steps > li:last-child{ border-bottom:0; }
+  .steps > li::before{
+    content:counter(st); position:absolute; left:0; top:13px;
+    width:29px; height:29px; border-radius:50%; background:var(--accent); color:#fff;
+    font-size:.8rem; font-weight:800; display:grid; place-items:center;
+  }
+  .steps > li b{ color:var(--ink); }
+
+  .ck{ list-style:none; padding:0; }
+  .ck li{ position:relative; padding:9px 0 9px 33px; border-bottom:1px dashed var(--line);
+          font-size:.9rem; }
+  .ck li:last-child{ border-bottom:0; }
+  .ck li::before{ content:""; position:absolute; left:2px; top:14px; width:15px; height:15px;
+      border:2px solid #b8c4d6; border-radius:4px; }
+
+  .pill{ display:inline-block; font-size:.7rem; font-weight:800; padding:2px 9px;
+         border-radius:5px; letter-spacing:.05em; text-transform:uppercase; }
+  .p-free{ background:#dcfce7; color:#15803d; }
+  .p-best{ background:#0d6b5e; color:#fff; }
+  .p-warn{ background:#fef3c7; color:#92400e; }
+
+  .url{ background:#0f1720; color:#7ee8d6; padding:9px 15px; border-radius:8px;
+        font-family:ui-monospace,Consolas,monospace; font-size:.86rem; display:inline-block;
+        margin:4px 0; word-break:break-all; }
+
+  .footer{ margin-top:56px; padding-top:22px; border-top:1px solid var(--line);
+           font-size:.82rem; color:var(--ink3); }
+
+  @media (max-width:600px){
+    .page{ padding:20px 14px 60px; }
+    header.top{ padding:24px 20px; }
+    header.top h1{ font-size:1.3rem; }
+    h2{ font-size:1.05rem; }
+  }
+  @page{ size:A4; margin:14mm; }
+  @media print{
+    body{ background:#fff; }
+    .page{ max-width:none; padding:0; }
+    header.top{ background:#0d6b5e !important; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    .card, table, pre, .warn,.ok,.info,.danger{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    h2{ page-break-after:avoid; }
+    .card, table, pre{ page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="top">
+  <div class="kick">Panduan Hosting</div>
+  <h1>Cara Online-kan Website Portofolio<br>sampai Jadi — Gratis</h1>
+  <p>Langkah demi langkah, dari nol sampai punya alamat web yang bisa dibagikan ke recruiter.</p>
+</header>
+
+<div class="ok">
+  <b>Ringkasan singkat</b>
+  Pakai <b>GitHub Pages</b>. Gratis selamanya, tanpa iklan, tidak kedaluwarsa, dan alamatnya
+  terlihat profesional: <code>https://username.github.io/portfolio/</code>
+</div>
+
+<!-- ============ 1 ============ -->
+<h2><span class="num">1</span>Pilihan hosting gratis</h2>
+
+<p class="lead">Ada beberapa layanan gratis. Ini perbandingannya untuk kebutuhanmu.</p>
+
+<table>
+  <tr>
+    <th style="width:22%">Layanan</th>
+    <th style="width:30%">Alamat yang didapat</th>
+    <th style="width:100px">Nilai</th>
+    <th>Cocok untuk</th>
+  </tr>
+  <tr>
+    <td><b>GitHub Pages</b></td>
+    <td><code>username.github.io/portfolio</code></td>
+    <td><span class="pill p-best">Terbaik</span></td>
+    <td>Gratis permanen, terlihat paling profesional di CV, sekaligus jadi portofolio kode. <b>Pilih ini.</b></td>
+  </tr>
+  <tr>
+    <td>Netlify</td>
+    <td><code>nama-acak.netlify.app</code></td>
+    <td><span class="pill p-free">Gratis</span></td>
+    <td>Paling mudah — cukup drag &amp; drop folder, langsung online. Tapi butuh 2 bahasa: drag-drop dan upload file besar terpisah.</td>
+  </tr>
+  <tr>
+    <td>Cloudflare Pages</td>
+    <td><code>nama.pages.dev</code></td>
+    <td><span class="pill p-free">Gratis</span></td>
+    <td>Paling cepat diakses, bandwidth besar. Sedikit lebih teknis.</td>
+  </tr>
+  <tr>
+    <td>Vercel</td>
+    <td><code>nama.vercel.app</code></td>
+    <td><span class="pill p-free">Gratis</span></td>
+    <td>Bagus untuk developer, tapi lebih berorientasi aplikasi daripada situs statis.</td>
+  </tr>
+</table>
+
+<div class="info">
+  <b>Kenapa GitHub Pages yang aku sarankan</b>
+  Selain gratis permanen, kamu sudah <em>seharusnya</em> punya akun GitHub sebagai mahasiswa teknik —
+  banyak perusahaan teknologi memeriksa profil GitHub. Jadi satu pekerjaan menghasilkan dua manfaat:
+  website portofolio <b>dan</b> akun GitHub yang bisa dicantumkan di CV.
+</div>
+
+<!-- ============ 2 ============ -->
+<h2><span class="num">2</span>Yang perlu disiapkan</h2>
+
+<ul class="ck">
+  <li>Email (yang aktif — sudah punya: <code>wildanrizkysafapratama@gmail.com</code>)</li>
+  <li>Folder <code>D:/PORTFOLIO KARIR/06_Website</code> — semua isinya akan diunggah</li>
+  <li>Koneksi internet yang cukup untuk upload <b>± 130 MB</b> sekali jalan</li>
+  <li>Waktu ± 30–45 menit (termasuk pembuatan akun)</li>
+</ul>
+
+<h3>Isi folder yang akan diunggah</h3>
+<table>
+  <tr><th style="width:52%">Item</th><th style="width:90px">Ukuran</th><th>Keterangan</th></tr>
+  <tr><td><code>index.html</code></td><td>95 KB</td><td>Website portofolio utama</td></tr>
+  <tr><td><code>cv.html</code> + <code>cv-ats.html</code></td><td>32 KB</td><td>Halaman CV</td></tr>
+  <tr><td>3 file PDF CV + teks ATS</td><td>± 300 KB</td><td>Yang diunduh pengunjung</td></tr>
+  <tr><td><code>Portofolio_...pdf</code></td><td>12,5 MB</td><td>Portofolio 19 halaman</td></tr>
+  <tr><td><code>assets/img/</code></td><td>13 MB</td><td>70 gambar</td></tr>
+  <tr><td><code>assets/video/</code></td><td>104 MB</td><td>5 video + poster</td></tr>
+  <tr><td><code>README.md</code></td><td>7 KB</td><td>Dokumentasi</td></tr>
+</table>
+
+<!-- ============ 3 ============ -->
+<h2><span class="num">3</span>⚠️ Satu kendala penting: video</h2>
+
+<div class="danger">
+  <b>2 video melebihi batas upload lewat browser</b>
+  GitHub membatasi upload <b>lewat browser maksimal 25 MB per file</b>. Dua video kamu lebih besar:
+  <br><br>
+  <code>kidn2025-dronevid.mp4</code> → <b>47,6 MB</b><br>
+  <code>krti2026-lomba.mp4</code> → <b>45,3 MB</b>
+  <br><br>
+  Jadi kalau upload lewat drag &amp; drop di website GitHub, <b>2 file ini akan gagal</b>.
+</div>
+
+<h3>Ada 2 solusi — pilih salah satu</h3>
+
+<table>
+  <tr>
+    <th style="width:30%">Solusi</th>
+    <th style="width:90px">Usaha</th>
+    <th>Penjelasan</th>
+  </tr>
+  <tr>
+    <td><b>A. Pakai GitHub Desktop</b><br><span class="pill p-best">Mudah</span></td>
+    <td>Rendah</td>
+    <td>Aplikasi resmi GitHub untuk Windows. Upload tanpa batas 25 MB. <b>Ini yang aku sarankan</b> — sekali pasang, seterusnya mudah untuk update.</td>
+  </tr>
+  <tr>
+    <td><b>B. Pindahkan 2 video ke YouTube</b><br><span class="pill p-warn">2 langkah</span></td>
+    <td>Sedang</td>
+    <td>Upload video ke YouTube (unlisted), lalu di website tag <code>&lt;video&gt;</code> diganti embed YouTube. Repo jadi ringan (±26 MB), proses lebih cepat. Butuh perubahan kode — minta aku bantu.</td>
+  </tr>
+</table>
+
+<div class="warn">
+  <b>Kalau tidak sabar dan tetap ingin cara tercepat</b>
+  Hapus dulu 2 video besar dari folder, upload sisanya lewat browser (langsung berhasil), baru
+  tambahkan 2 video itu belakangan lewat GitHub Desktop. Website sudah jalan lebih dulu.
+</div>
+
+<!-- ============ 4 ============ -->
+<h2><span class="num">4</span>Langkah 1 — Buat akun GitHub</h2>
+
+<ol class="steps">
+  <li>
+    <b>Buka <code>github.com</code></b> → klik <b>Sign up</b>
+  </li>
+  <li>
+    <b>Isi email</b> → <code>wildanrizkysafapratama@gmail.com</code><br>
+    Buat password kuat, lalu isi username.
+  </li>
+  <li>
+    <b>Pilih username dengan hati-hati</b> — ini akan jadi bagian alamat website dan <b>tidak bisa
+    diubah seenaknya</b> nanti (bisa, tapi merepotkan).<br><br>
+    Saran (huruf kecil semua, tanpa spasi):
+    <span class="url">wildanrizky</span>
+    <span class="url">wildanrizkysafa</span>
+    <span class="url">wildan-rizky</span>
+    <br>
+    Hindari angka acak seperti <code>wildan12345</code> — kurang profesional di CV.
+  </li>
+  <li>
+    <b>Verifikasi email</b> — cek inbox, klik tautan verifikasi dari GitHub.<br>
+    <span style="color:var(--danger);font-size:.88rem">Tanpa verifikasi, GitHub Pages tidak bisa diaktifkan.</span>
+  </li>
+</ol>
+
+<div class="ok">
+  <b>Simpan username-mu</b>
+  Kalau kamu pilih <code>wildanrizky</code>, maka alamat website nanti adalah:
+  <div class="url">https://wildanrizky.github.io/portfolio/</div>
+</div>
+
+<!-- ============ 5 ============ -->
+<h2><span class="num">5</span>Langkah 2 — Buat repository</h2>
+
+<p class="lead">Repository (repo) = folder proyek di GitHub.</p>
+
+<ol class="steps">
+  <li>Di halaman utama GitHub, klik tombol <b>+</b> kanan atas → <b>New repository</b></li>
+  <li>
+    <b>Repository name</b>: ketik <code>portfolio</code><br>
+    <span style="font-size:.88rem;color:var(--ink3)">Harus persis <code>portfolio</code> — huruf kecil semua — supaya alamatnya rapi.</span>
+  </li>
+  <li><b>Description</b>: <code>Portofolio Electrical Engineer — Wildan Rizky Safa Pratama</code></li>
+  <li>
+    Pilih <b>Public</b><br>
+    <span style="font-size:.88rem;color:var(--danger)">Wajib Public. Kalau Private, GitHub Pages berbayar.</span>
+  </li>
+  <li><b>Jangan centang</b> "Add a README file" — biarkan kosong</li>
+  <li>Klik <b>Create repository</b></li>
+</ol>
+
+<!-- ============ 6 ============ -->
+<h2><span class="num">6</span>Langkah 3 — Pasang GitHub Desktop</h2>
+
+<p class="lead">Aplikasi ini membuat upload jadi semudah menyalin folder — dan bisa menangani file besar.</p>
+
+<ol class="steps">
+  <li>Buka <code>desktop.github.com</code> → klik <b>Download for Windows</b></li>
+  <li>Jalankan installer → tunggu selesai → buka <b>GitHub Desktop</b></li>
+  <li>Klik <b>Sign in to GitHub.com</b> → masuk dengan akun yang baru dibuat</li>
+  <li>
+    Setelah masuk, pilih menu <b>File → Clone repository</b> → tab <b>GitHub.com</b> →
+    pilih <code>username/portfolio</code> → <b>Clone</b>
+  </li>
+  <li>
+    Tentukan lokasi penyimpanan lokal, misal:<br>
+    <code>D:/PORTFOLIO KARIR/_github/portfolio</code>
+  </li>
+  <li>Klik <b>Clone</b> — folder kosong akan dibuat</li>
+</ol>
+
+<div class="info">
+  <b>Apa yang baru saja terjadi</b>
+  GitHub Desktop membuat folder kosong di komputer yang <b>terhubung</b> ke repository di GitHub.
+  Setiap kali kamu mengubah isi folder itu lalu klik "Commit" + "Push", perubahannya terkirim ke GitHub.
+</div>
+
+<!-- ============ 7 ============ -->
+<h2><span class="num">7</span>Langkah 4 — Salin file website</h2>
+
+<ol class="steps">
+  <li>
+    Buka folder sumber di File Explorer:<br>
+    <code>D:/PORTFOLIO KARIR/06_Website</code>
+  </li>
+  <li>
+    <b>Pilih semua isinya</b> (Ctrl+A) — <span style="color:var(--danger)"><b>bukan</b> foldernya</span>,
+    tapi file dan folder <em>di dalamnya</em>
+  </li>
+  <li>
+    <b>Copy</b> (Ctrl+C), lalu buka folder hasil clone tadi
+    (<code>D:/PORTFOLIO KARIR/_github/portfolio</code>) → <b>Paste</b> (Ctrl+V)
+  </li>
+  <li>Tunggu selesai menyalin — sekitar 130 MB, butuh beberapa menit</li>
+</ol>
+
+<div class="danger">
+  <b>Sering salah di sini</b>
+  Kalau kamu copy <em>folder</em> <code>06_Website</code>-nya, hasilnya jadi
+  <code>portfolio/06_Website/index.html</code> — website <b>tidak akan muncul</b>.
+  <br><br>
+  Yang benar: isi folder langsung di root, sehingga menjadi:
+  <pre>portfolio/
+├── index.html          ← harus di sini, paling luar
+├── cv.html
+├── assets/
+└── ...</pre>
+</div>
+
+<h3>Cek struktur sebelum lanjut</h3>
+<p>Pastikan <code>index.html</code> ada <b>tepat di dalam</b> folder <code>portfolio</code>, bukan di subfolder.</p>
+
+<!-- ============ 8 ============ -->
+<h2><span class="num">8</span>Langkah 5 — Commit &amp; Push</h2>
+
+<ol class="steps">
+  <li>
+    Buka <b>GitHub Desktop</b>. Di panel kiri akan muncul ratusan file baru
+    dengan tanda centang hijau.
+  </li>
+  <li>
+    Di pojok kiri bawah, isi kolom <b>Summary</b>:<br>
+    <code>Website portofolio awal</code>
+  </li>
+  <li>Klik tombol biru <b>Commit to main</b></li>
+  <li>
+    Klik <b>Push origin</b> di bar atas<br>
+    <span style="font-size:.88rem;color:var(--ink3)">Proses upload ± 130 MB — bisa 3–10 menit tergantung koneksi. Jangan tutup aplikasi.</span>
+  </li>
+</ol>
+
+<div class="ok">
+  <b>Tanda berhasil</b>
+  Setelah selesai, buka halaman repository di github.com. Semua file harus terlihat di sana.
+  Kalau <code>index.html</code> terlihat, lanjut ke langkah berikutnya.
+</div>
+
+<!-- ============ 9 ============ -->
+<h2><span class="num">9</span>Langkah 6 — Aktifkan GitHub Pages</h2>
+
+<p class="lead">Ini momen website benar-benar jadi.</p>
+
+<ol class="steps">
+  <li>Di halaman repository, klik tab <b>Settings</b> (ikon gerigi, paling kanan)</li>
+  <li>Di sidebar kiri, gulir ke bawah → klik <b>Pages</b></li>
+  <li>
+    Bagian <b>Source</b> → pilih <b>Deploy from a branch</b>
+  </li>
+  <li>
+    Bagian <b>Branch</b>:
+    <ul style="margin:8px 0 0 18px">
+      <li>dropdown pertama: pilih <code>main</code></li>
+      <li>dropdown kedua: biarkan <code>/ (root)</code></li>
+    </ul>
+  </li>
+  <li>Klik <b>Save</b></li>
+  <li>
+    Tunggu <b>1–3 menit</b>. Refresh halaman Settings → Pages.<br>
+    Akan muncul tulisan: <em>"Your site is live at ..."</em>
+  </li>
+</ol>
+
+<h3>Alamat website-mu</h3>
+<div class="url">https://USERNAME.github.io/portfolio/</div>
+<p class="lead" style="font-size:.86rem">Ganti <code>USERNAME</code> dengan username GitHub yang kamu pilih di Langkah 1.</p>
+
+<!-- ============ 10 ============ -->
+<h2><span class="num">10</span>Langkah 7 — Periksa hasilnya</h2>
+
+<p class="lead">Buka alamat itu di browser. Periksa satu per satu:</p>
+
+<ul class="ck">
+  <li>Halaman utama tampil dengan foto profil di navigasi dan nama lengkap</li>
+  <li>Gambar-gambar muncul (tidak ada kotak rusak)</li>
+  <li>Tombol <b>CV → Lihat CV</b> membuka <code>cv.html</code></li>
+  <li>Tombol <b>Unduh PDF</b> mengunduh file CV</li>
+  <li>Section <b>Dokumen → Sertifikat</b> menampilkan gambar sertifikat FASI</li>
+  <li>Video bisa diputar (mungkin agak lambat di awal — normal)</li>
+  <li>Buka di HP juga — pastikan tampilannya rapi</li>
+</ul>
+
+<div class="warn">
+  <b>Kalau gambar tidak muncul</b>
+  Penyebab paling umum: struktur folder salah. Cek apakah <code>assets/img/</code>
+  ada <b>sejajar</b> dengan <code>index.html</code>, bukan di dalam subfolder lain.
+</div>
+
+<div class="info">
+  <b>Kalau muncul error 404</b>
+  Tunggu 3–5 menit lagi — GitHub butuh waktu membangun situs pertama kali.
+  Kalau masih 404 setelah 10 menit, cek lagi: repository harus <b>Public</b>,
+  dan Branch harus <code>main</code> dengan folder <code>/ (root)</code>.
+</div>
+
+<!-- ============ 11 ============ -->
+<h2><span class="num">11</span>Langkah 8 — Pasang tautan di CV</h2>
+
+<p class="lead">Setelah alamat website jadi, tautan itu perlu ditambahkan ke CV dan CV ATS.</p>
+
+<h3>Yang perlu diubah</h3>
+<table>
+  <tr><th style="width:34%">File</th><th>Perubahan</th></tr>
+  <tr>
+    <td><code>cv.html</code><br><code>cv-ats.html</code></td>
+    <td>Tambahkan baris di bagian kontak: <b>Portofolio: wildanrizky.github.io/portfolio</b></td>
+  </tr>
+  <tr>
+    <td><code>CV_..._Pratama.pdf</code><br><code>CV_ATS_..._Pratama.pdf</code></td>
+    <td>Regenerasi PDF setelah <code>cv.html</code> diubah</td>
+  </tr>
+  <tr>
+    <td><code>CV_ATS_..._Pratama.txt</code></td>
+    <td>Tambahkan baris URL di bagian header</td>
+  </tr>
+  <tr>
+    <td><code>CV_ATS.txt</code> + <code>CV_Resume.md</code></td>
+    <td>Versi sumber di folder <code>05_CV &amp; Lamaran</code></td>
+  </tr>
+  <tr>
+    <td>LinkedIn</td>
+    <td>Bagian <b>Contact info → Website</b> + <b>Sorotan</b></td>
+  </tr>
+</table>
+
+<div class="ok">
+  <b>Bilang saja ke aku</b>
+  Setelah website jadi, kirim alamatnya. Aku akan menambahkan tautan ke semua file CV,
+  regenerasi PDF, dan sekaligus memperbarui panduan LinkedIn.
+</div>
+
+<!-- ============ 12 ============ -->
+<h2><span class="num">12</span>Cara update website nanti</h2>
+
+<p class="lead">Setiap kali ada perubahan (proyek baru, foto baru, CV diperbarui):</p>
+
+<ol class="steps">
+  <li>Edit file di folder <code>D:/PORTFOLIO KARIR/06_Website</code></li>
+  <li>Salin ulang file yang berubah ke folder <code>_github/portfolio</code></li>
+  <li>Buka GitHub Desktop → isi Summary → <b>Commit to main</b> → <b>Push origin</b></li>
+  <li>Tunggu 1–2 menit → refresh website → perubahan muncul</li>
+</ol>
+
+<div class="info">
+  <b>Tips</b>
+  Lebih praktis kalau kamu <b>langsung bekerja di folder <code>_github/portfolio</code></b>
+  setelah setup awal. Jadi tidak perlu salin-salin lagi. Folder asli
+  <code>06_Website</code> bisa dijadikan cadangan.
+</div>
+
+<!-- ============ 13 ============ -->
+<h2><span class="num">13</span>Opsional — yang bisa ditambahkan nanti</h2>
+
+<table>
+  <tr><th style="width:32%">Fitur</th><th style="width:90px">Biaya</th><th>Keterangan</th></tr>
+  <tr>
+    <td>Custom domain</td>
+    <td>± Rp 150rb/tahun</td>
+    <td>Misal <code>wildanrizky.com</code> — terlihat lebih profesional, tapi <b>tidak wajib</b>.
+        Alamat <code>github.io</code> sudah cukup untuk melamar.</td>
+  </tr>
+  <tr>
+    <td>HTTPS</td>
+    <td>Gratis</td>
+    <td>Otomatis aktif di GitHub Pages. Tidak perlu diatur.</td>
+  </tr>
+  <tr>
+    <td>Google Analytics</td>
+    <td>Gratis</td>
+    <td>Untuk melihat berapa orang membuka portofoliomu. Opsional.</td>
+  </tr>
+  <tr>
+    <td>Pindahkan video ke YouTube</td>
+    <td>Gratis</td>
+    <td>Repo jadi ringan (±26 MB), halaman lebih cepat dibuka. Bisa dilakukan kapan saja.</td>
+  </tr>
+</table>
+
+<!-- ============ 14 ============ -->
+<h2><span class="num">14</span>Masalah yang sering muncul</h2>
+
+<table>
+  <tr><th style="width:34%">Gejala</th><th>Penyebab &amp; solusi</th></tr>
+  <tr>
+    <td>Halaman 404 setelah aktifkan Pages</td>
+    <td>Belum selesai build. Tunggu 3–5 menit. Kalau tetap: pastikan repo Public dan Branch =
+        <code>main</code>, folder <code>/ (root)</code>.</td>
+  </tr>
+  <tr>
+    <td>Website tampil tapi tanpa gambar</td>
+    <td>Struktur folder salah. <code>index.html</code> harus sejajar dengan folder
+        <code>assets/</code>, bukan di dalam subfolder.</td>
+  </tr>
+  <tr>
+    <td>Halaman putih kosong</td>
+    <td>Mungkin ada <code>index.html</code> ganda. Pastikan hanya satu, di root.</td>
+  </tr>
+  <tr>
+    <td>Upload gagal / stuck di 2 video</td>
+    <td>Batas 25 MB per file saat upload lewat browser. Pakai GitHub Desktop (Langkah 3).</td>
+  </tr>
+  <tr>
+    <td>Video tidak mau diputar</td>
+    <td>File terlalu besar untuk koneksi, atau belum selesai terunggah. Cek ukuran file di repo.</td>
+  </tr>
+  <tr>
+    <td>Perubahan tidak muncul</td>
+    <td>Sudah commit tapi belum <b>Push</b>. Atau cache browser — coba Ctrl+Shift+R.</td>
+  </tr>
+  <tr>
+    <td>Repository Private tidak bisa Pages</td>
+    <td>GitHub Pages untuk repo Private butuh akun Pro. Ubah repo jadi Public di Settings.</td>
+  </tr>
+</table>
+
+<!-- ============ 15 ============ -->
+<h2><span class="num">15</span>Checklist akhir</h2>
+
+<div class="card">
+  <ul class="ck">
+    <li>Akun GitHub dibuat &amp; email terverifikasi</li>
+    <li>Repository <code>portfolio</code> dibuat, status <b>Public</b></li>
+    <li>GitHub Desktop terpasang &amp; login</li>
+    <li>Semua isi <code>06_Website</code> tersalin ke folder repo</li>
+    <li><code>index.html</code> ada di root repo (bukan di subfolder)</li>
+    <li>Commit &amp; Push berhasil — file terlihat di github.com</li>
+    <li>GitHub Pages diaktifkan (main / root)</li>
+    <li>Website terbuka tanpa error 404</li>
+    <li>Gambar, CV, dan sertifikat tampil normal</li>
+    <li>Sudah dicek di HP juga</li>
+    <li>Tautan website ditambahkan ke CV, CV ATS, dan LinkedIn</li>
+  </ul>
+</div>
+
+<div class="footer">
+  <p><b>Butuh bantuan di tengah jalan?</b> Sebutkan langkah nomornya dan apa yang muncul di layar —
+  aku bantu langsung.</p>
+  <p>Panduan ini berdasarkan tampilan GitHub per November 2026. Kalau nama tombol sedikit berbeda,
+  cari kata kuncinya: <em>Settings, Pages, Deploy from a branch, Branch, Save</em>.</p>
+</div>
+
+</div>
+</body>
+</html>

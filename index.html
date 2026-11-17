@@ -1,0 +1,1872 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Wildan Rizky Safa Pratama — Electrical Engineer</title>
+<script>document.documentElement.classList.add('js');</script>
+<meta name="description" content="Portofolio Wildan Rizky Safa Pratama — Sarjana Teknik Elektro Universitas Negeri Malang. Desain PCB, arsitektur distribusi daya, integrasi sensor untuk robot dan drone otonom." />
+<meta name="author" content="Wildan Rizky Safa Pratama" />
+<meta property="og:title" content="Wildan Rizky Safa Pratama — Electrical Engineer" />
+<meta property="og:description" content="Desain PCB, distribusi daya, dan integrasi sensor untuk robot bawah air, drone VTOL otonom, dan robot darat." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="assets/img/avatar-64.jpg" />
+
+<style>
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --bg:        #070a11;
+    --bg-soft:   #0b1018;
+    --surface:   #101725;
+    --surface-2: #151e2e;
+    --border:    rgba(148,180,220,.13);
+    --border-2:  rgba(148,180,220,.24);
+    --text:      #e8eef7;
+    --text-dim:  #9aabc2;
+    --text-mute: #6b7c93;
+    --accent:    #2ee6c5;
+    --accent-2:  #38bdf8;
+    --accent-3:  #a78bfa;
+    --warn:      #fbbf24;
+    --radius:    16px;
+    --radius-sm: 10px;
+    --max:       1140px;
+    --ease:      cubic-bezier(.22,.61,.36,1);
+    --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  }
+
+  /* ============ RESET ============ */
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  body{
+    margin:0; font-family:var(--font); background:var(--bg); color:var(--text);
+    line-height:1.65; -webkit-font-smoothing:antialiased; overflow-x:hidden;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  h1,h2,h3,h4{ line-height:1.2; margin:0; letter-spacing:-.02em; font-weight:700; }
+  p{ margin:0; }
+  ul{ margin:0; padding:0; list-style:none; }
+  ::selection{ background:rgba(46,230,197,.25); color:#fff; }
+
+  /* ============ LAYOUT ============ */
+  .wrap{ width:100%; max-width:var(--max); margin-inline:auto; padding-inline:24px; }
+  section{ padding:96px 0; position:relative; }
+  @media (max-width:720px){ section{ padding:64px 0; } .wrap{ padding-inline:18px; } }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:.72rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:14px;
+  }
+  .eyebrow::before{
+    content:""; width:22px; height:2px; border-radius:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  }
+  .sec-title{ font-size:clamp(1.6rem,3.4vw,2.35rem); margin-bottom:12px; }
+  .sec-sub{ color:var(--text-dim); max-width:62ch; font-size:1rem; }
+  .sec-head{ margin-bottom:52px; }
+
+  /* ============ NAV ============ */
+  .nav{
+    position:fixed; inset:0 0 auto 0; z-index:80;
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+    background:rgba(7,10,17,.72);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s var(--ease), background .3s var(--ease);
+  }
+  .nav.scrolled{ border-bottom-color:var(--border); background:rgba(7,10,17,.9); }
+  .nav-inner{ display:flex; align-items:center; justify-content:space-between; height:66px; }
+  .brand{ display:flex; align-items:center; gap:11px; font-weight:800; font-size:.95rem; letter-spacing:-.02em; }
+  .brand-mark{
+    width:34px; height:34px; border-radius:50%; display:block; flex-shrink:0;
+    object-fit:cover; object-position:center 28%;
+    box-shadow:0 0 0 2px rgba(46,230,197,.55), 0 0 18px rgba(46,230,197,.30);
+  }
+  .brand-name{
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    max-width:min(58vw, 320px);
+  }
+  .brand{ min-width:0; }
+  @media (max-width:760px){
+    .brand-name{ font-size:.8rem; letter-spacing:-.01em; }
+    .brand-mark{ width:30px; height:30px; }
+  }
+  @media (max-width:420px){
+    .brand-name{ font-size:.74rem; }
+  }
+  .nav-links{ display:flex; gap:4px; align-items:center; }
+  .nav-links a{
+    font-size:.83rem; font-weight:600; color:var(--text-dim);
+    padding:8px 13px; border-radius:8px; transition:.2s var(--ease);
+  }
+  .nav-links a:hover{ color:var(--text); background:rgba(255,255,255,.05); }
+  .nav-links a.active{ color:var(--accent); }
+  .nav-cta{
+    font-size:.83rem; font-weight:700; padding:9px 16px; border-radius:9px;
+    background:var(--accent); color:#04120f !important;
+    transition:.2s var(--ease);
+  }
+  .nav-cta:hover{ box-shadow:0 0 24px rgba(46,230,197,.45); transform:translateY(-1px); }
+  .burger{
+    display:none; width:40px; height:40px; border-radius:10px; border:1px solid var(--border);
+    background:var(--surface); color:var(--text); cursor:pointer; align-items:center; justify-content:center;
+  }
+  @media (max-width:900px){
+    .nav-links{
+      position:fixed; inset:66px 0 auto 0; flex-direction:column; align-items:stretch; gap:2px;
+      background:rgba(9,13,21,.98); padding:14px; border-bottom:1px solid var(--border);
+      transform:translateY(-120%); transition:transform .32s var(--ease);
+    }
+    .nav-links.open{ transform:translateY(0); }
+    .nav-links a{ padding:12px 14px; font-size:.92rem; }
+    .nav-cta{ text-align:center; margin-top:6px; }
+    .burger{ display:flex; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height:100svh; display:flex; align-items:center;
+    padding-top:110px; padding-bottom:70px; position:relative; overflow:hidden;
+  }
+  .hero::before{
+    content:""; position:absolute; inset:0; z-index:0; pointer-events:none;
+    background:
+      radial-gradient(760px 420px at 78% 8%, rgba(46,230,197,.13), transparent 62%),
+      radial-gradient(680px 460px at 12% 82%, rgba(56,189,248,.11), transparent 60%),
+      radial-gradient(520px 380px at 50% 55%, rgba(167,139,250,.07), transparent 65%);
+  }
+  .hero::after{
+    content:""; position:absolute; inset:0; z-index:0; opacity:.5; pointer-events:none;
+    background-image:
+      linear-gradient(rgba(148,180,220,.055) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148,180,220,.055) 1px, transparent 1px);
+    background-size:58px 58px;
+    mask-image:radial-gradient(ellipse 85% 70% at 50% 40%, #000 35%, transparent 78%);
+    -webkit-mask-image:radial-gradient(ellipse 85% 70% at 50% 40%, #000 35%, transparent 78%);
+  }
+  .hero .wrap{ position:relative; z-index:1; }
+  .hero-grid{ display:grid; grid-template-columns:1.15fr .85fr; gap:56px; align-items:center; }
+  @media (max-width:980px){ .hero-grid{ grid-template-columns:1fr; gap:44px; } }
+
+  .hero-badge{
+    display:inline-flex; align-items:center; gap:9px; padding:6px 14px 6px 8px;
+    border:1px solid var(--border-2); border-radius:100px; background:rgba(16,23,37,.7);
+    font-size:.76rem; font-weight:600; color:var(--text-dim); margin-bottom:22px;
+  }
+  .pulse{
+    width:7px; height:7px; border-radius:50%; background:var(--accent);
+    box-shadow:0 0 0 0 rgba(46,230,197,.6); animation:pulse 2.4s infinite;
+  }
+  @keyframes pulse{
+    0%{ box-shadow:0 0 0 0 rgba(46,230,197,.55); }
+    70%{ box-shadow:0 0 0 11px rgba(46,230,197,0); }
+    100%{ box-shadow:0 0 0 0 rgba(46,230,197,0); }
+  }
+  .hero h1{
+    font-size:clamp(2.1rem,5.2vw,3.7rem); font-weight:800; letter-spacing:-.035em;
+    margin-bottom:8px;
+  }
+  .hero h1 .grad{
+    background:linear-gradient(96deg,var(--accent) 0%,var(--accent-2) 55%,var(--accent-3) 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-role{
+    font-family:var(--mono); font-size:.86rem; letter-spacing:.02em;
+    color:var(--accent); margin-bottom:20px;
+  }
+  .hero-lead{ color:var(--text-dim); font-size:1.03rem; max-width:54ch; margin-bottom:30px; }
+  .hero-lead strong{ color:var(--text); font-weight:600; }
+
+  .cta-row{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:44px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:9px; padding:13px 24px; border-radius:11px;
+    font-size:.9rem; font-weight:700; border:1px solid transparent; cursor:pointer;
+    transition:.22s var(--ease);
+  }
+  .btn-primary{
+    background:linear-gradient(120deg,var(--accent),var(--accent-2)); color:#04120f;
+    box-shadow:0 6px 26px -8px rgba(46,230,197,.6);
+  }
+  .btn-primary:hover{ transform:translateY(-2px); box-shadow:0 10px 34px -8px rgba(46,230,197,.75); }
+  .btn-ghost{ border-color:var(--border-2); color:var(--text); background:rgba(16,23,37,.6); }
+  .btn-ghost:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; max-width:560px; }
+  @media (max-width:560px){ .stats{ grid-template-columns:repeat(2,1fr); } }
+  .stat{
+    padding:15px 16px; border-radius:var(--radius-sm);
+    border:1px solid var(--border); background:rgba(16,23,37,.55);
+  }
+  .stat b{ display:block; font-size:1.42rem; font-weight:800; letter-spacing:-.03em; color:var(--text); }
+  .stat span{ font-size:.71rem; color:var(--text-mute); text-transform:uppercase; letter-spacing:.09em; font-weight:700; }
+
+  .hero-visual{ position:relative; }
+  .hero-visual .frame{
+    position:relative; border-radius:22px; overflow:hidden;
+    border:1px solid var(--border-2); background:var(--surface);
+    box-shadow:0 32px 70px -30px rgba(0,0,0,.95), 0 0 0 1px rgba(46,230,197,.06);
+  }
+  .hero-visual img{ width:100%; height:auto; }
+  .hero-visual .frame::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(to top, rgba(7,10,17,.75), transparent 52%);
+  }
+  .hero-cap{
+    position:absolute; left:0; right:0; bottom:0; padding:18px 20px; z-index:2;
+    font-size:.76rem; color:#cbd8e8; line-height:1.5;
+  }
+  .hero-cap b{ color:var(--accent); display:block; font-size:.68rem; letter-spacing:.13em; text-transform:uppercase; margin-bottom:4px; }
+
+  /* ============ REVEAL ============ */
+  html.js [data-reveal]{ opacity:0; transform:translateY(26px); transition:opacity .75s var(--ease), transform .75s var(--ease); }
+  html.js [data-reveal].in{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:reduce){
+    html.js [data-reveal]{ opacity:1; transform:none; transition:none; }
+    html{ scroll-behavior:auto; }
+  }
+
+  /* ============ ABOUT ============ */
+  .about-grid{ display:grid; grid-template-columns:1.35fr 1fr; gap:52px; align-items:start; }
+  @media (max-width:900px){ .about-grid{ grid-template-columns:1fr; gap:34px; } }
+  .about-text p{ color:var(--text-dim); margin-bottom:16px; font-size:1rem; }
+  .about-text p:last-child{ margin-bottom:0; }
+  .about-text strong{ color:var(--text); font-weight:600; }
+
+  .about-side{ display:grid; gap:16px; }
+  .portrait{
+    border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;
+    background:var(--surface); position:relative;
+  }
+  .portrait img{ width:100%; height:auto; display:block; }
+  .portrait figcaption{
+    padding:13px 18px; font-size:.79rem; color:var(--text-dim);
+    border-top:1px solid var(--border); background:rgba(16,23,37,.6);
+  }
+  .portrait figcaption b{ color:var(--text); display:block; font-size:.85rem; margin-bottom:2px; }
+
+  .focus-card{
+    border:1px solid var(--border); background:linear-gradient(165deg,var(--surface),var(--bg-soft));
+    border-radius:var(--radius); padding:26px;
+  }
+  .focus-card h3{ font-size:.78rem; letter-spacing:.14em; text-transform:uppercase; color:var(--text-mute); margin-bottom:18px; }
+  .focus-list li{
+    display:flex; gap:11px; padding:11px 0; border-bottom:1px dashed var(--border);
+    font-size:.89rem; color:var(--text-dim);
+  }
+  .focus-list li:last-child{ border-bottom:0; padding-bottom:0; }
+  .focus-list li::before{
+    content:"▹"; color:var(--accent); font-weight:800; flex-shrink:0;
+  }
+
+  /* ============ SKILLS ============ */
+  .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(258px,100%),1fr)); gap:16px; }
+  .skill-card{
+    border:1px solid var(--border); background:var(--surface); border-radius:var(--radius);
+    padding:24px; transition:.28s var(--ease); position:relative; overflow:hidden;
+  }
+  .skill-card::before{
+    content:""; position:absolute; inset:0 0 auto 0; height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    opacity:0; transition:opacity .28s var(--ease);
+  }
+  .skill-card:hover{ border-color:var(--border-2); transform:translateY(-3px); background:var(--surface-2); }
+  .skill-card:hover::before{ opacity:1; }
+  .skill-icon{ font-size:1.3rem; margin-bottom:12px; }
+  .skill-card h3{ font-size:.95rem; margin-bottom:14px; }
+  .chips{ display:flex; flex-wrap:wrap; gap:7px; }
+  .chip{
+    font-size:.74rem; font-weight:600; padding:5px 11px; border-radius:7px;
+    background:rgba(56,189,248,.09); border:1px solid rgba(56,189,248,.2);
+    color:#a9d8f5;
+  }
+  .chip.alt{ background:rgba(46,230,197,.09); border-color:rgba(46,230,197,.22); color:#8fe8d6; }
+
+  /* ============ TIMELINE ============ */
+  .timeline{ position:relative; padding-left:34px; }
+  .timeline::before{
+    content:""; position:absolute; left:8px; top:6px; bottom:6px; width:2px;
+    background:linear-gradient(180deg,var(--accent),rgba(56,189,248,.35),transparent);
+    border-radius:2px;
+  }
+  .tl-item{ position:relative; padding-bottom:38px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-30px; top:7px; width:12px; height:12px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--accent);
+    box-shadow:0 0 0 4px rgba(46,230,197,.11);
+  }
+  .tl-item.now::before{ background:var(--accent); box-shadow:0 0 0 4px rgba(46,230,197,.2), 0 0 16px rgba(46,230,197,.7); }
+  .tl-period{
+    font-family:var(--mono); font-size:.72rem; font-weight:600; letter-spacing:.05em;
+    color:var(--accent); margin-bottom:7px; display:block;
+  }
+  .tl-item h3{ font-size:1.08rem; margin-bottom:4px; }
+  .tl-org{ font-size:.86rem; color:var(--accent-2); font-weight:600; margin-bottom:11px; }
+  .tl-item ul{ display:grid; gap:7px; }
+  .tl-item li{ position:relative; padding-left:17px; font-size:.885rem; color:var(--text-dim); }
+  .tl-item li::before{
+    content:""; position:absolute; left:0; top:.62em; width:5px; height:5px;
+    border-radius:50%; background:var(--text-mute);
+  }
+  .tl-tag{
+    display:inline-block; font-size:.67rem; font-weight:800; letter-spacing:.09em;
+    text-transform:uppercase; padding:3px 9px; border-radius:5px; margin-left:8px;
+    background:rgba(46,230,197,.15); color:var(--accent); vertical-align:middle;
+  }
+
+  /* ============ PROJECTS ============ */
+  .project{
+    border:1px solid var(--border); border-radius:20px; overflow:hidden;
+    background:var(--surface); margin-bottom:26px;
+    transition:.3s var(--ease);
+  }
+  .project:hover{ border-color:var(--border-2); }
+  .p-head{ padding:30px 30px 0; }
+  @media (max-width:720px){ .p-head{ padding:24px 20px 0; } }
+  .p-top{ display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:13px; }
+  .p-badge{
+    font-size:.68rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase;
+    padding:4px 10px; border-radius:6px;
+  }
+  .b-gold{ background:rgba(251,191,36,.15); color:var(--warn); border:1px solid rgba(251,191,36,.3); }
+  .b-green{ background:rgba(46,230,197,.13); color:var(--accent); border:1px solid rgba(46,230,197,.28); }
+  .b-blue{ background:rgba(56,189,248,.12); color:var(--accent-2); border:1px solid rgba(56,189,248,.26); }
+  .p-year{ font-family:var(--mono); font-size:.74rem; color:var(--text-mute); margin-left:auto; }
+  .p-head h3{ font-size:clamp(1.15rem,2.4vw,1.5rem); margin-bottom:7px; }
+  .p-role{ font-size:.85rem; color:var(--accent-2); font-weight:600; margin-bottom:14px; }
+  .p-desc{ color:var(--text-dim); font-size:.92rem; max-width:74ch; margin-bottom:18px; }
+  .p-specs{ display:grid; gap:8px; margin-bottom:24px; }
+  .p-specs li{ position:relative; padding-left:18px; font-size:.875rem; color:var(--text-dim); }
+  .p-specs li::before{
+    content:""; position:absolute; left:0; top:.6em; width:6px; height:6px; border-radius:2px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-2));
+  }
+  .gallery{
+    display:grid; gap:8px; padding:0 30px 30px;
+    grid-template-columns:repeat(3,1fr);
+  }
+  @media (max-width:720px){ .gallery{ padding:0 20px 24px; grid-template-columns:repeat(2,1fr); } }
+  .gallery figure{
+    margin:0; position:relative; border-radius:11px; overflow:hidden;
+    background:var(--bg-soft); border:1px solid var(--border); cursor:zoom-in;
+  }
+  .gallery figure.wide{ grid-column:span 2; }
+  .gallery img{
+    width:100%; height:172px; object-fit:cover;
+    transition:transform .5s var(--ease), filter .3s var(--ease);
+  }
+  .gallery figure:hover img{ transform:scale(1.06); }
+  .gallery figcaption{
+    position:absolute; inset:auto 0 0 0; padding:26px 12px 10px; font-size:.71rem;
+    color:#dbe6f4; line-height:1.4;
+    background:linear-gradient(to top, rgba(4,7,12,.93), transparent);
+    opacity:0; transition:opacity .3s var(--ease);
+  }
+  .gallery figure:hover figcaption{ opacity:1; }
+  @media (max-width:720px){
+    .gallery img{ height:140px; }
+    .gallery figcaption{ opacity:1; }
+  }
+  /* Gambar dokumen (skematik / tabel / diagram) — tampil utuh, tidak dipotong */
+  .gallery figure.doc img{ object-fit:contain; background:#f1f5f9; padding:8px; }
+  .gallery figure.doc{ background:#f1f5f9; }
+  .gallery figure.doc:hover img{ transform:none; }
+  .gallery figure.portrait img{ height:260px; object-fit:contain; background:#0b1018; }
+  /* PCB 3D & layout — berlatar gelap, tampil utuh tanpa terpotong */
+  .gallery figure.pcb{ background:#0b1018; }
+  .gallery figure.pcb img{ object-fit:contain; background:#0b1018; padding:6px; }
+  .gallery figure.pcb:hover img{ transform:none; }
+
+  /* ============ VIDEO ============ */
+  .video-grid{
+    display:grid; gap:10px; padding:0 30px 30px;
+    grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));
+  }
+  @media (max-width:720px){ .video-grid{ padding:0 20px 24px; } }
+  .vid{
+    margin:0; border-radius:12px; overflow:hidden;
+    border:1px solid var(--border); background:#060a10;
+  }
+  .vid video{
+    width:100%; max-height:340px; display:block; background:#060a10;
+    object-fit:contain;
+  }
+  .vid .vid-poster{ display:none; }
+  .vid figcaption{
+    padding:10px 14px; font-size:.78rem; color:var(--text-dim); line-height:1.5;
+    border-top:1px solid var(--border); background:rgba(16,23,37,.7);
+  }
+  .vid figcaption b{ color:var(--accent); display:block; font-size:.72rem;
+                     letter-spacing:.1em; text-transform:uppercase; margin-bottom:3px; }
+  .vid-note{
+    grid-column:1/-1; font-size:.75rem; color:var(--text-mute);
+    padding:6px 2px 0;
+  }
+
+  /* ============ SUB-HEADING DALAM PROYEK ============ */
+  .subhead{
+    padding:6px 30px 4px; margin-top:6px;
+    display:flex; align-items:center; gap:11px;
+  }
+  @media (max-width:720px){ .subhead{ padding:6px 20px 4px; } }
+  .subhead h4{
+    margin:0; font-size:.82rem; font-weight:800; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--accent); white-space:nowrap;
+  }
+  .subhead::after{
+    content:""; flex:1; height:1px;
+    background:linear-gradient(90deg, rgba(46,230,197,.35), transparent);
+  }
+
+  .ph{
+    grid-column:1/-1; display:grid; place-items:center; text-align:center;
+    padding:40px 20px; border:1px dashed var(--border-2); border-radius:13px;
+    color:var(--text-mute); font-size:.84rem; background:rgba(11,16,24,.6);
+  }
+  .ph b{ display:block; color:var(--text-dim); font-size:.9rem; margin-bottom:5px; }
+
+  /* ============ AWARDS ============ */
+  .awards-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr)); gap:16px; }
+  .award{
+    position:relative; border:1px solid var(--border); border-radius:var(--radius);
+    padding:26px; background:linear-gradient(165deg,var(--surface),var(--bg-soft));
+    overflow:hidden; transition:.28s var(--ease);
+  }
+  .award:hover{ transform:translateY(-3px); border-color:rgba(251,191,36,.35); }
+  .award .medal{ font-size:1.55rem; margin-bottom:13px; }
+  .award h3{ font-size:1rem; margin-bottom:5px; }
+  .award p{ font-size:.84rem; color:var(--text-dim); }
+  .award .yr{ font-family:var(--mono); font-size:.72rem; color:var(--accent); margin-top:13px; display:block; }
+
+  /* ============ SERTIFIKAT ============ */
+  .cert-gallery{ padding:0; grid-template-columns:repeat(2,1fr); gap:12px; }
+  @media (max-width:720px){ .cert-gallery{ grid-template-columns:1fr; } }
+  .cert-gallery figure.doc img{ height:auto; max-height:340px; }
+  .cert-gallery figcaption{
+    position:static; opacity:1; padding:11px 14px; font-size:.79rem;
+    background:rgba(16,23,37,.85); color:var(--text-dim);
+    border-top:1px solid var(--border);
+  }
+  .cert-gallery figure:hover img{ transform:none; }
+
+  .cert-note{
+    margin-top:16px; border-left:3px solid var(--warn);
+    background:rgba(251,191,36,.06); border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+    padding:15px 18px; font-size:.83rem; color:var(--text-dim); line-height:1.65;
+  }
+  .cert-note strong{ color:var(--warn); }
+  .cert-note em{ color:var(--text); font-style:italic; }
+
+  /* ============ CV / UNDUHAN ============ */
+  .cv-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:820px){ .cv-grid{ grid-template-columns:1fr; } }
+  .cv-card{
+    border:1px solid var(--border); border-radius:var(--radius); padding:28px;
+    background:linear-gradient(165deg,var(--surface),var(--bg-soft));
+    transition:.28s var(--ease); display:flex; flex-direction:column;
+  }
+  .cv-card:hover{ border-color:var(--border-2); transform:translateY(-3px); }
+  .cv-icon{ font-size:1.5rem; margin-bottom:12px; }
+  .cv-badge{
+    display:inline-block; font-size:.66rem; font-weight:800; letter-spacing:.1em;
+    text-transform:uppercase; padding:3px 9px; border-radius:5px; margin-bottom:11px;
+    background:rgba(46,230,197,.15); color:var(--accent); align-self:flex-start;
+  }
+  .cv-badge.alt{ background:rgba(56,189,248,.13); color:var(--accent-2); }
+  .cv-card h3{ font-size:1.15rem; margin-bottom:10px; }
+  .cv-desc{ font-size:.885rem; color:var(--text-dim); margin-bottom:20px; flex:1; }
+  .cv-desc em{ color:var(--text); font-style:italic; }
+  .cv-actions{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:14px; }
+  .cv-btn{
+    display:inline-flex; align-items:center; gap:7px; font-size:.82rem; font-weight:700;
+    padding:10px 16px; border-radius:9px; border:1px solid var(--border-2);
+    background:rgba(11,16,24,.7); color:var(--text); transition:.2s var(--ease);
+  }
+  .cv-btn:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-1px); }
+  .cv-btn-primary{ background:var(--accent); border-color:var(--accent); color:#04120f; }
+  .cv-btn-primary:hover{ box-shadow:0 0 20px rgba(46,230,197,.4); color:#04120f; }
+  .cv-meta{
+    font-family:var(--mono); font-size:.72rem; color:var(--text-mute);
+    padding-top:13px; border-top:1px dashed var(--border);
+  }
+
+  .dl-strip{
+    margin-top:16px; border:1px solid var(--border); border-radius:var(--radius);
+    padding:20px 24px; display:flex; align-items:center; justify-content:space-between;
+    gap:16px; flex-wrap:wrap; background:var(--surface);
+  }
+  .dl-strip strong{ display:block; font-size:.93rem; margin-bottom:2px; }
+  .dl-strip span{ font-size:.82rem; color:var(--text-mute); }
+
+  /* ============ CONTACT ============ */
+  .contact-box{
+    border:1px solid var(--border-2); border-radius:22px; padding:56px 40px; text-align:center;
+    background:
+      radial-gradient(680px 300px at 50% 0%, rgba(46,230,197,.12), transparent 66%),
+      linear-gradient(180deg,var(--surface),var(--bg-soft));
+    position:relative; overflow:hidden;
+  }
+  @media (max-width:720px){ .contact-box{ padding:40px 22px; } }
+  .contact-box h2{ font-size:clamp(1.5rem,3.2vw,2.2rem); margin-bottom:14px; }
+  .contact-box > p{ color:var(--text-dim); max-width:52ch; margin:0 auto 32px; }
+  .contact-links{ display:flex; flex-wrap:wrap; gap:12px; justify-content:center; }
+  .c-link{
+    display:inline-flex; align-items:center; gap:9px; padding:12px 20px; border-radius:11px;
+    border:1px solid var(--border-2); background:rgba(11,16,24,.7);
+    font-size:.86rem; font-weight:600; color:var(--text); transition:.22s var(--ease);
+  }
+  .c-link:hover{ border-color:var(--accent); color:var(--accent); transform:translateY(-2px); }
+
+  /* ============ FOOTER ============ */
+  footer{
+    border-top:1px solid var(--border); padding:30px 0;
+    display:flex; justify-content:space-between; align-items:center; gap:16px; flex-wrap:wrap;
+    font-size:.8rem; color:var(--text-mute);
+  }
+  footer a{ color:var(--text-dim); }
+  footer a:hover{ color:var(--accent); }
+
+  /* ============ LIGHTBOX ============ */
+  .lb{
+    position:fixed; inset:0; z-index:200; display:none; place-items:center;
+    background:rgba(3,5,9,.95); padding:28px; cursor:zoom-out;
+    backdrop-filter:blur(6px);
+  }
+  .lb.open{ display:grid; }
+  .lb img{ max-width:100%; max-height:86vh; border-radius:10px; box-shadow:0 30px 80px -20px #000; }
+  .lb-cap{ margin-top:14px; text-align:center; font-size:.83rem; color:var(--text-dim); max-width:74ch; }
+  .lb-close{
+    position:absolute; top:18px; right:22px; width:42px; height:42px; border-radius:50%;
+    border:1px solid var(--border-2); background:rgba(16,23,37,.9); color:var(--text);
+    font-size:1.2rem; cursor:pointer; display:grid; place-items:center;
+  }
+  .lb-close:hover{ border-color:var(--accent); color:var(--accent); }
+
+  /* ============ SCROLL BAR ============ */
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:var(--bg); }
+  ::-webkit-scrollbar-thumb{ background:#1e2a3d; border-radius:5px; border:2px solid var(--bg); }
+  ::-webkit-scrollbar-thumb:hover{ background:#2a3a52; }
+
+  /* ============================================================
+     PRINT / PDF — versi terang & rapi untuk dicetak atau diunggah
+     ============================================================ */
+  @page{ size:A4; margin:14mm 14mm 16mm; }
+
+  @media print{
+    /* --- paksa latar putih, teks gelap --- */
+    html, body{
+      background:#fff !important; color:#16202e !important;
+      font-size:10.5pt; line-height:1.55;
+    }
+    body{ overflow:visible !important; }
+    *{ box-shadow:none !important; text-shadow:none !important; }
+
+    /* --- sembunyikan elemen yang tidak perlu di PDF --- */
+    .nav, .burger, .cta-row, .btn, .lb, .lb-close,
+    .hero-badge, .contact-links .c-link:last-child,
+    footer, #yr, .scroll-hint { display:none !important; }
+
+    /* --- semua animasi reveal dimatikan --- */
+    [data-reveal]{ opacity:1 !important; transform:none !important; transition:none !important; }
+
+    /* --- reset wadah --- */
+    .wrap{ max-width:none !important; padding:0 !important; }
+    section{ padding:16pt 0 !important; background:#fff !important; page-break-inside:auto; }
+    section[style]{ background:#fff !important; }
+
+    /* --- semua warna teks jadi gelap --- */
+    h1,h2,h3,h4,.sec-title,.p-head h3,.tl-item h3,.skill-card h3,
+    .award h3,.p-desc strong,.about-text strong,.hero-lead strong,
+    .tl-org,.p-role,.p-specs strong,.focus-card h3,.portrait figcaption b{
+      color:#0f1a2a !important;
+    }
+    p, li, .sec-sub, .about-text p, .tl-item li, .p-desc, .p-specs li,
+    .skill-card, .award p, .portrait figcaption{
+      color:#3b4757 !important;
+    }
+    .muted{ color:#6b7789 !important; }
+
+    /* --- header hero jadi sederhana --- */
+    .hero{ min-height:0 !important; padding:0 0 12pt !important;
+           background:#fff !important; display:block !important; page-break-after:avoid; }
+    .hero::before, .hero::after{ display:none !important; }
+    .hero-grid{ display:block !important; }
+    .hero h1{ font-size:26pt !important; margin-bottom:4pt !important; letter-spacing:-.02em; }
+    .hero h1 .grad{ color:#0b6b5e !important; background:none !important;
+                    -webkit-text-fill-color:#0b6b5e !important; }
+    .hero-role{ color:#0a5c8a !important; font-size:9pt !important; margin-bottom:10pt !important; }
+    .hero-lead{ color:#3b4757 !important; font-size:10pt !important; max-width:none !important;
+                margin-bottom:12pt !important; }
+
+    /* --- statistik jadi 4 kolom rapi --- */
+    .stats{ display:grid !important; grid-template-columns:repeat(4,1fr) !important;
+            gap:6pt !important; max-width:none !important; margin-bottom:12pt !important; }
+    .stat{ border:1px solid #d5dce6 !important; background:#f7f9fc !important;
+           padding:7pt 8pt !important; border-radius:5pt !important; }
+    .stat b{ color:#0f1a2a !important; font-size:13pt !important; }
+    .stat span{ color:#6b7789 !important; font-size:6.5pt !important; }
+
+    /* --- foto hero: kecilkan, jangan makan 1 halaman --- */
+    .hero-visual{ margin-top:8pt !important; width:58mm !important; margin-left:auto !important;
+                  margin-right:auto !important; }
+    .hero-visual .frame{ border:1px solid #d5dce6 !important; border-radius:6pt !important;
+                         background:#fff !important; overflow:hidden !important; }
+    .hero-visual img{ width:100% !important; height:auto !important; max-height:none !important;
+                      display:block !important; }
+    .hero-visual .frame::after{ display:none !important; }
+    .hero-cap{ position:static !important; background:none !important; padding:5pt 0 0 !important;
+               color:#3b4757 !important; font-size:8pt !important; }
+    .hero-cap b{ color:#0b6b5e !important; }
+
+    /* --- judul bagian --- */
+    .eyebrow{ color:#0b6b5e !important; }
+    .eyebrow::before{ background:#0b6b5e !important; }
+    .sec-head{ margin-bottom:12pt !important; page-break-after:avoid; }
+    .sec-title{ font-size:16pt !important; margin-bottom:4pt !important; }
+    .sec-sub{ max-width:none !important; font-size:9.5pt !important; }
+
+    /* --- tentang: satu kolom --- */
+    .about-grid{ display:block !important; }
+    .about-text p{ font-size:9.5pt !important; margin-bottom:7pt !important;
+                   text-align:justify; }
+    .about-text{ margin-bottom:10pt !important; }
+    .about-side{ display:flex !important; gap:10pt !important; align-items:flex-start !important;
+                 margin-top:8pt !important; }
+    .portrait{ flex:0 0 42mm !important; border:1px solid #d5dce6 !important; border-radius:6pt !important; }
+    .portrait img{ width:100% !important; height:auto !important; }
+    .portrait figcaption{ border-color:#e3e8f0 !important; background:#f7f9fc !important;
+                          font-size:8pt !important; padding:5pt 7pt !important; }
+    .focus-card{ flex:1 !important; border:1px solid #d5dce6 !important; background:#fafbfd !important;
+                 padding:10pt 12pt !important; border-radius:6pt !important; }
+    .focus-list li{ border-color:#e3e8f0 !important; padding:4pt 0 !important; font-size:9pt !important; }
+    .focus-list li::before{ color:#0b6b5e !important; }
+
+    /* --- keahlian: 2 kolom, kartu ringkas --- */
+    .skills-grid{ display:grid !important; grid-template-columns:1fr 1fr !important;
+                  gap:7pt !important; }
+    .skill-card{ border:1px solid #d5dce6 !important; background:#fafbfd !important;
+                 padding:9pt 11pt !important; border-radius:6pt !important;
+                 page-break-inside:avoid; }
+    .skill-icon{ font-size:11pt !important; margin-bottom:4pt !important; }
+    .skill-card h3{ font-size:9.5pt !important; margin-bottom:6pt !important; }
+    .chips{ gap:4pt !important; }
+    .chip{ background:#eef3fa !important; border:1px solid #cfdaeb !important;
+           color:#1b4b78 !important; font-size:7pt !important; padding:2.5pt 6pt !important; }
+    .chip.alt{ background:#e9f7f3 !important; border-color:#bfe6db !important; color:#0b5c4e !important; }
+
+    /* --- timeline pengalaman --- */
+    .timeline{ padding-left:16pt !important; }
+    .timeline::before{ background:#cfdaeb !important; left:3pt !important; width:1.5pt !important; }
+    .tl-item{ padding-bottom:8pt !important; page-break-inside:avoid; }
+    .tl-item::before{ left:-14.5pt !important; width:7pt !important; height:7pt !important;
+                      border:2pt solid #0b6b5e !important; background:#fff !important;
+                      box-shadow:none !important; top:4pt !important; }
+    .tl-period{ color:#0b6b5e !important; font-size:7.5pt !important; margin-bottom:2pt !important; }
+    .tl-item h3{ font-size:11pt !important; margin-bottom:1pt !important; }
+    .tl-org{ font-size:8.5pt !important; color:#0a5c8a !important; margin-bottom:4pt !important; }
+    .tl-item ul{ gap:2pt !important; }
+    .tl-item li{ font-size:9pt !important; padding-left:12pt !important; }
+    .tl-item li::before{ background:#94a3b8 !important; }
+    .tl-tag{ background:#e9f7f3 !important; color:#0b5c4e !important; font-size:6.5pt !important; }
+
+    /* --- proyek: kartu ringkas, hindari potong gambar --- */
+    .project{ border:1px solid #d5dce6 !important; background:#fff !important;
+              border-radius:8pt !important; margin-bottom:12pt !important;
+              break-inside:auto; }
+    .p-head{ padding:12pt 14pt 0 !important; }
+    .p-top{ margin-bottom:6pt !important; gap:6pt !important; }
+    .p-badge{ font-size:6.5pt !important; padding:2.5pt 7pt !important; }
+    .b-gold{ background:#fef3c7 !important; color:#8a5a00 !important; border:1px solid #fcd34d !important; }
+    .b-green{ background:#e9f7f3 !important; color:#0b5c4e !important; border:1px solid #bfe6db !important; }
+    .b-blue{ background:#eef3fa !important; color:#1b4b78 !important; border:1px solid #cfdaeb !important; }
+    .p-year{ color:#6b7789 !important; font-size:7.5pt !important; }
+    .p-head h3{ font-size:13pt !important; margin-bottom:3pt !important; }
+    .p-role{ font-size:8.5pt !important; color:#0a5c8a !important; margin-bottom:6pt !important; }
+    .p-desc{ font-size:9pt !important; margin-bottom:7pt !important; max-width:none !important; }
+    .p-specs{ gap:2pt !important; margin-bottom:10pt !important; }
+    .p-specs li{ font-size:8.7pt !important; }
+    .p-specs li::before{ background:#0b6b5e !important; }
+
+    /* grid tidak bisa difragmentasi antar halaman -> pakai inline-block untuk cetak */
+    .gallery{ padding:0 14pt 13pt !important; display:block !important;
+              font-size:0; break-inside:auto; }
+    .gallery figure{ display:inline-block !important; vertical-align:top !important;
+                     width:32.2% !important; margin:0 0.6% 5pt 0 !important;
+                     break-inside:avoid; font-size:initial; }
+    .gallery figure.wide{ width:65.4% !important; }
+    /* skematik & diagram butuh ruang lebih agar terbaca */
+    .gallery figure.doc{ width:49% !important; }
+    .gallery figure.doc.wide{ width:100% !important; }
+    .gallery figure{ border:1px solid #d5dce6 !important; border-radius:5pt !important;
+                     background:#fff !important; }
+    .gallery img{ height:30mm !important; object-fit:cover !important; }
+    .gallery figure.wide img{ height:40mm !important; }
+    .gallery figure.doc img{ height:auto !important; max-height:74mm !important; }
+    .gallery figure.doc img{ background:#fff !important; padding:2pt !important; }
+    .gallery figcaption{ display:none !important; }
+    .vid{ border:1px solid #d5dce6 !important; background:#fff !important;
+          page-break-inside:avoid; }
+    .vid video{ display:none !important; }
+    .vid .vid-poster{ display:block !important; width:100% !important; height:auto !important;
+                      max-height:52mm !important; object-fit:cover !important; }
+    .vid figcaption{ border-color:#e3e8f0 !important; background:#f7f9fc !important;
+                     color:#3b4757 !important; font-size:8pt !important; }
+    .vid figcaption b{ color:#0b6b5e !important; }
+    .video-grid{ display:grid !important; grid-template-columns:1fr 1fr !important;
+                 gap:7pt !important; padding:0 14pt 13pt !important; }
+    .vid-note{ display:none !important; }
+    .subhead{ padding:6pt 14pt 3pt !important; break-after:avoid-page; }
+    .subhead h4{ color:#0b6b5e !important; font-size:8pt !important; }
+    .subhead::after{ background:#d5dce6 !important; }
+
+    /* Sertifikat saat dicetak */
+    .cert-gallery{ display:block !important; padding:0 !important; }
+    .cert-gallery figure{
+      display:block !important; width:100% !important; margin:0 0 5pt 0 !important;
+      border:1px solid #d5dce6 !important; border-radius:4pt !important;
+      background:#fff !important; break-inside:avoid;
+    }
+    .gallery.cert-gallery figure.doc img,
+    .gallery.cert-gallery figure img{
+      display:block !important; width:100% !important; height:54mm !important;
+      max-height:54mm !important;
+      object-fit:contain !important; object-position:center !important;
+      margin:0 !important; padding:3pt !important; background:#fff !important;
+    }
+    .cert-gallery figcaption{
+      position:static !important; opacity:1 !important; display:block !important;
+      background:#f7f9fc !important; color:#3b4757 !important;
+      border-top:1px solid #e3e8f0 !important; font-size:7.8pt !important;
+      padding:4pt 8pt !important; font-weight:600 !important;
+    }
+    .cert-note{ border-left:2.5pt solid #f59e0b !important; background:#fffbeb !important;
+                color:#7c3f00 !important; font-size:8.2pt !important; padding:7pt 10pt !important;
+                break-inside:avoid; }
+    .cert-note strong{ color:#92400e !important; }
+    .cert-note em{ color:#0f1a2a !important; }
+
+    /* CV section saat dicetak */
+    #cv{ break-before:page; }
+    .cv-grid{ display:block !important; }
+    .cv-card{ border:1px solid #d5dce6 !important; background:#fafbfd !important;
+              margin-bottom:8pt !important; padding:11pt 13pt !important;
+              break-inside:avoid; }
+    .cv-card h3{ font-size:10.5pt !important; color:#0f1a2a !important; }
+    .cv-desc{ font-size:8.6pt !important; color:#3b4757 !important; margin-bottom:8pt !important; }
+    .cv-desc em{ color:#0f1a2a !important; font-style:italic; }
+    .about-text em, .p-desc em, .tl-item em, .skill-block em{ color:#0f1a2a !important; }
+    .cv-badge{ background:#e9f7f3 !important; color:#0b5c4e !important; font-size:6.2pt !important; }
+    .cv-badge.alt{ background:#eef3fa !important; color:#1b4b78 !important; }
+    .cv-icon{ font-size:11pt !important; margin-bottom:4pt !important; }
+    .cv-actions{ display:none !important; }
+    .cv-meta{ font-size:7pt !important; color:#6b7789 !important; border-color:#e3e8f0 !important; }
+    .dl-strip{ border:1px solid #d5dce6 !important; background:#fafbfd !important; padding:9pt 12pt !important; }
+    .dl-strip .cv-btn{ display:none !important; }
+
+    .ph{ border:1px dashed #b8c4d6 !important; color:#6b7789 !important;
+         background:#fafbfd !important; padding:12pt !important; }
+
+    /* --- prestasi --- */
+    .awards-grid{ grid-template-columns:1fr 1fr !important; gap:7pt !important; }
+    .award{ border:1px solid #d5dce6 !important; background:#fafbfd !important;
+            padding:10pt 12pt !important; border-radius:6pt !important;
+            page-break-inside:avoid; }
+    .award .medal{ font-size:13pt !important; margin-bottom:5pt !important; }
+    .award h3{ font-size:10pt !important; margin-bottom:2pt !important; }
+    .award p{ font-size:8.7pt !important; }
+    .award .yr{ color:#0b6b5e !important; font-size:7.5pt !important; margin-top:6pt !important; }
+
+    /* --- kontak --- */
+    #contact{ break-inside:avoid-page; }
+    .contact-box{ border:1px solid #d5dce6 !important; background:#fafbfd !important;
+                  padding:18pt !important; border-radius:8pt !important; }
+    .contact-box h2{ font-size:15pt !important; }
+    .contact-box > p{ color:#3b4757 !important; font-size:9.5pt !important; }
+    .contact-links{ gap:6pt !important; }
+    .c-link{ border:1px solid #cfdaeb !important; background:#fff !important;
+             color:#1b4b78 !important; font-size:8.5pt !important; padding:6pt 10pt !important; }
+
+    /* --- pemisah antar bagian --- */
+    h2, h3{ page-break-after:avoid; }
+    .sec-head{ break-after:avoid-page; }
+    .skills-grid{ break-inside:auto; }
+    /* cegah halaman kosong: kartu proyek boleh mengalir */
+    .project{ break-inside:avoid-page; }
+    img{ page-break-inside:avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#home" class="brand">
+      <img class="brand-mark" src="assets/img/avatar-128.jpg" alt="Wildan Rizky Safa Pratama" />
+      <span class="brand-name">WILDAN RIZKY SAFA PRATAMA</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#about">Tentang</a>
+      <a href="#skills">Keahlian</a>
+      <a href="#experience">Pengalaman</a>
+      <a href="#projects">Proyek</a>
+      <a href="#awards">Prestasi</a>
+      <a href="#cv">CV</a>
+      <a href="#contact" class="nav-cta">Hubungi</a>
+    </div>
+    <button class="burger" id="burger" aria-label="Buka menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </button>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<header class="hero" id="home">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">
+          <span class="pulse"></span>
+          Terbuka untuk peluang Electrical &amp; Hardware Engineer
+        </div>
+
+        <h1>Wildan Rizky<br><span class="grad">Safa Pratama</span></h1>
+        <div class="hero-role">Electrical Engineer · Hardware · Power Systems · Sensor Integration</div>
+
+        <p class="hero-lead">
+          Sarjana Teknik Elektro Universitas Negeri Malang (<strong>IPK 3,84/4,00</strong>).
+          Merancang sistem kelistrikan, distribusi daya, dan integrasi sensor untuk
+          <strong>robot bawah air</strong>, <strong>drone VTOL otonom</strong>, dan
+          <strong>robot darat</strong> — dengan pendekatan desain yang sederhana, andal,
+          dan objektif terhadap kebutuhan.
+        </p>
+
+        <div class="cta-row">
+          <a href="#projects" class="btn btn-primary">
+            Lihat Proyek
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <a href="#contact" class="btn btn-ghost">Hubungi Saya</a>
+        </div>
+
+        <div class="stats">
+          <div class="stat"><b>6</b><span>Proyek Rekayasa</span></div>
+          <div class="stat"><b>3,84</b><span>IPK / 4,00</span></div>
+          <div class="stat"><b>2</b><span>Prestasi Nasional</span></div>
+          <div class="stat"><b>Head</b><span>Senior Electric</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="frame">
+          <img src="assets/img/vtol2026-hero-person.jpg" alt="Wildan Rizky Safa Pratama memegang drone VTOL Tim Wisanggeni di panggung KRTI 2026" />
+          <div class="hero-cap">
+            <b>KRTI VTOL 2026</b>
+            Drone VTOL otonom — dua receiver GPS RTK (HERE 3+ &amp; HERE 4) untuk akurasi posisi hingga 1 cm.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ================= ABOUT ================= -->
+<section id="about">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow">Tentang Saya</div>
+      <h2 class="sec-title">Merancang perangkat keras yang bekerja andal</h2>
+      <p class="sec-sub">Fokus pada sistem elektrik dan elektronika: dari skematik, pemilihan komponen, hingga integrasi lapangan.</p>
+    </div>
+
+    <div class="about-grid">
+      <div class="about-text" data-reveal>
+        <p>
+          Saya lulusan Teknik Elektro Universitas Negeri Malang dengan pengalaman
+          mengerjakan <strong>enam proyek rekayasa</strong> — mulai dari robot bawah air,
+          drone VTOL otonom, drone kamikaze, hingga robot darat. Peran saya selalu berada
+          di sisi perangkat keras: desain PCB, arsitektur distribusi daya, pemilihan
+          komponen berbasis datasheet, dan integrasi sensor.
+        </p>
+        <p>
+          Sejak Januari 2026 saya dipercaya menjabat sebagai <strong>Head Senior Electric</strong>
+          pada Tim Wisanggeni — memimpin bidang elektrik, menetapkan arsitektur sistem,
+          serta mengoordinasikan kebutuhan teknis dengan bidang mekanik dan pemrograman.
+        </p>
+        <p>
+          Cara kerja yang saya yakini: <strong>desain terbaik adalah desain paling sederhana
+          yang tetap bekerja andal</strong>. Pada KRTI 2026, sistem elektrik disederhanakan
+          secara signifikan dibanding tahun sebelumnya — servo dan LED dihubungkan langsung
+          ke flight controller, jumlah LED dikurangi, dan PCB kustom digantikan modul yang
+          lebih tepat — tanpa mengorbankan fungsi, bahkan meningkatkan akurasi.
+        </p>
+        <p>
+          Saya terbiasa bekerja dalam tim dengan pembagian bidang yang tegas. Saya
+          bertanggung jawab penuh pada domain elektrik, dan menghormati batas bidang
+          rekan mekanik maupun pemrograman — karena pembagian kerja yang jelas itulah
+          yang membuat tim bergerak cepat dan tepat.
+        </p>
+      </div>
+
+      <aside class="about-side" data-reveal>
+        <figure class="portrait">
+          <img src="assets/img/profile-foto.jpg" alt="Wildan Rizky Safa Pratama" />
+          <figcaption>
+            <b>Wildan Rizky Safa Pratama</b>
+            Malang, Jawa Timur · KRTI VTOL 2026
+          </figcaption>
+        </figure>
+
+        <div class="focus-card">
+          <h3>Fokus Keahlian</h3>
+          <ul class="focus-list">
+            <li>Desain PCB &amp; skematik (EasyEDA)</li>
+            <li>Arsitektur distribusi daya &amp; regulasi tegangan</li>
+            <li>Pemilihan komponen berbasis datasheet</li>
+            <li>Integrasi sensor: GPS RTK, LiDAR, IMU</li>
+            <li>Wiring harness &amp; perakitan konektor</li>
+            <li>Operasi drone pada misi otonom</li>
+            <li>Kepemimpinan bidang teknis</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SKILLS ================= -->
+<section id="skills" style="background:linear-gradient(180deg,var(--bg),var(--bg-soft));">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow">Keahlian</div>
+      <h2 class="sec-title">Perangkat &amp; kemampuan teknis</h2>
+      <p class="sec-sub">Semua yang tercantum di bawah ini pernah dipakai langsung pada proyek nyata.</p>
+    </div>
+
+    <div class="skills-grid">
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">⚡</div>
+        <h3>Kelistrikan &amp; Hardware</h3>
+        <div class="chips">
+          <span class="chip alt">Desain PCB</span>
+          <span class="chip alt">Skematik</span>
+          <span class="chip alt">Power Distribution</span>
+          <span class="chip alt">Regulasi Tegangan</span>
+          <span class="chip alt">Wiring Harness</span>
+          <span class="chip alt">Soldering</span>
+          <span class="chip alt">Crimping Molex / JST-GH</span>
+          <span class="chip alt">Pemilihan Komponen</span>
+        </div>
+      </div>
+
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">🔌</div>
+        <h3>Protokol &amp; Antarmuka</h3>
+        <div class="chips">
+          <span class="chip">UART</span>
+          <span class="chip">I2C</span>
+          <span class="chip">PWM</span>
+          <span class="chip">USB</span>
+        </div>
+      </div>
+
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">🛠️</div>
+        <h3>Sistem &amp; Platform</h3>
+        <div class="chips">
+          <span class="chip">ArduPilot / PX4</span>
+          <span class="chip">Mission Planner</span>
+          <span class="chip">Orange Cube Pixhawk</span>
+          <span class="chip">Raspberry Pi Pico</span>
+          <span class="chip">ESP32</span>
+          <span class="chip">Jetson Orin Nano</span>
+        </div>
+      </div>
+
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">📡</div>
+        <h3>Sensor &amp; Aktuator</h3>
+        <div class="chips">
+          <span class="chip">GPS RTK (HERE 3+ / HERE 4)</span>
+          <span class="chip">LiDAR RPLIDAR C1</span>
+          <span class="chip">LiDAR TF Luna</span>
+          <span class="chip">IMU BNO055</span>
+          <span class="chip">Motor BLDC &amp; ESC</span>
+          <span class="chip">Servo</span>
+          <span class="chip">Driver BTS7960</span>
+        </div>
+      </div>
+
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">💻</div>
+        <h3>Perangkat Lunak</h3>
+        <div class="chips">
+          <span class="chip">EasyEDA</span>
+          <span class="chip">C / C++ (dasar)</span>
+          <span class="chip">Python (dasar)</span>
+          <span class="chip">Microsoft Office</span>
+        </div>
+      </div>
+
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">📜</div>
+        <h3>Regulasi &amp; Keselamatan Penerbangan</h3>
+        <div class="chips">
+          <span class="chip alt">CASR Part 61 / 91 / 107</span>
+          <span class="chip alt">PM 37/2020</span>
+          <span class="chip alt">KKOP &amp; Ruang Udara</span>
+          <span class="chip alt">Pre-flight Inspection</span>
+          <span class="chip alt">Risk Assessment</span>
+          <span class="chip alt">ADM &amp; CRM</span>
+        </div>
+      </div>
+
+      <div class="skill-card" data-reveal>
+        <div class="skill-icon">🤝</div>
+        <h3>Non-Teknis</h3>
+        <div class="chips">
+          <span class="chip alt">Kepemimpinan Teknis</span>
+          <span class="chip alt">Analisis Dokumen Teknis</span>
+          <span class="chip alt">Troubleshooting Lapangan</span>
+          <span class="chip alt">Komunikasi Teknis</span>
+          <span class="chip alt">Belajar Mandiri</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EXPERIENCE ================= -->
+<section id="experience">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow">Pengalaman</div>
+      <h2 class="sec-title">Perjalanan riset &amp; kompetisi</h2>
+      <p class="sec-sub">Dari robot bawah air hingga drone VTOL otonom tingkat nasional.</p>
+    </div>
+
+    <div class="timeline">
+      <div class="tl-item now" data-reveal>
+        <span class="tl-period">24 April 2026 — Sekarang</span>
+        <h3>Head Senior Electric &amp; Safety Pilot <span class="tl-tag">Aktif</span></h3>
+        <div class="tl-org">Drone VTOL KRTI — Tim Wisanggeni</div>
+        <ul>
+          <li>Memimpin bidang elektrik tim: penetapan arsitektur sistem, standar pemilihan komponen, dan pembagian kerja.</li>
+          <li>Merancang distribusi daya LiPo 4S 14,8 V → Power Distribution Board → 4× ESC 40 A → 4× T-Motor MN3510 700KV.</li>
+          <li>Membangun regulasi tegangan bertingkat: BEC 5 V 6 A (rail 12 V), stepdown 5 V 3 A, dan stepdown 3,3 V.</li>
+          <li>Menyediakan daya &amp; integrasi fisik companion computer Jetson Orin Nano beserta jalur USB untuk LiDAR RPLIDAR C1.</li>
+          <li>Mengimplementasikan GPS RTK (HERE 3+ &amp; HERE 4 + antena Beitian) hingga akurasi posisi 1 cm.</li>
+          <li>Menyederhanakan sistem dibanding 2025: servo &amp; LED langsung ke flight controller, 9 LED → 2 LED addressable.</li>
+          <li>Mengoperasikan drone pada misi otonom: pre-flight check, arming, monitoring telemetri, dan pengambilalihan kendali untuk pendaratan.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-period">11 Januari — 23 April 2026</span>
+        <h3>Head Senior Electric</h3>
+        <div class="tl-org">Robot Tematik KRTMI — Tim Wisanggeni</div>
+        <ul>
+          <li>Merancang PCB kontrol 4 motor PG45 dengan driver BTS7960 memanfaatkan fitur penuh: PWM, on/off, pembacaan arus, dan encoder per motor.</li>
+          <li>Mengintegrasikan IMU BNO055 9-DOF dan encoder motor untuk menghasilkan data visual odometri.</li>
+          <li>Hasil pengujian: robot bergerak lurus dengan koreksi gyro dan encoder.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-period">Februari — Mei 2026</span>
+        <h3>Electrical Engineer Intern</h3>
+        <div class="tl-org">PT Otomasi Cerdas Nusantara (OCN) — Malang</div>
+        <ul>
+          <li>Sistem monitoring kualitas air sungai untuk pengolahan limbah pabrik tahu: pemilihan sensor, pengkabelan, integrasi perangkat.</li>
+          <li>Sistem kelistrikan dan sensor pada Drydome, alat pengering skala industri.</li>
+          <li>Sistem elektrik mobil otonom jarak jauh: modul GSM, kamera, deteksi objek untuk human following, kontrol jarak jauh berbasis ESP32.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-period">Desember 2025</span>
+        <h3>Electrical Engineer</h3>
+        <div class="tl-org">Drone KIDN Tepat Sasaran — Tim Kazero</div>
+        <ul>
+          <li>Merancang dan merakit sistem elektrik drone kamikaze dengan muatan dummy 750 gram, jarak terbang 60 meter.</li>
+          <li>Menentukan konfigurasi motor, distribusi daya, dan perakitan konektor Molex/JST-GH.</li>
+          <li>Pencapaian: <strong>Juara 2 KIDN 2025</strong> kategori Tepat Sasaran.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-period">Juli — Desember 2025</span>
+        <h3>Electrical Engineer</h3>
+        <div class="tl-org">Drone VTOL KRTI 2025 — Tim Kazero</div>
+        <ul>
+          <li>Merancang PCB kustom: 4 sensor ultrasonik (jarak empat arah), 2 elektromagnet, 2 servo, 1 ultrasonik ketinggian, dan kontrol 9 LED.</li>
+          <li>Mengintegrasikan flight controller Orange Cube Pixhawk, power module, serta pembacaan arus dan tegangan.</li>
+          <li>Konfigurasi drone melalui Mission Planner dan perakitan konektor Molex/JST-GH.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-period">18 Desember 2024 — 9 Juli 2025</span>
+        <h3>Electrical Engineer — Anggota Tim Riset</h3>
+        <div class="tl-org">Robot Bawah Air — Tim Mizuro</div>
+        <ul>
+          <li>Merancang PCB Power: auto-cutoff tegangan utama, deteksi kebocoran air (sensor hujan), dan sensor tegangan.</li>
+          <li>Merancang PCB Control sebagai flight controller kustom berbasis Raspberry Pi Pico 2W, IMU BNO055 9-DOF, barometer, dan slot PWM untuk ESC.</li>
+          <li>Mempelajari sistem propulsi bawah air secara mandiri: motor BLDC 3-fasa, ESC, dan konfigurasi motor.</li>
+        </ul>
+      </div>
+
+      <div class="tl-item" data-reveal>
+        <span class="tl-period">2025 — Sekarang</span>
+        <h3>Mentor Riset Robot Bawah Air</h3>
+        <div class="tl-org">Tim Mizuro — sukarela</div>
+        <ul>
+          <li>Membimbing anggota baru dalam perancangan sistem elektrik robot bawah air: pemilihan motor BLDC, ESC, distribusi daya, dan pembuatan PCB.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="projects" style="background:linear-gradient(180deg,var(--bg),var(--bg-soft));">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow">Proyek</div>
+      <h2 class="sec-title">Karya &amp; dokumentasi teknis</h2>
+      <p class="sec-sub">Klik gambar untuk memperbesar. Seluruh dokumentasi adalah hasil kerja tim; peran saya tercantum pada tiap proyek.</p>
+    </div>
+
+    <!-- ===== PROJECT 1 ===== -->
+    <article class="project" data-reveal>
+      <div class="p-head">
+        <div class="p-top">
+          <span class="p-badge b-gold">🏅 Best Spirit Top 8 Nasional</span>
+          <span class="p-badge b-green">Head Senior Electric</span>
+          <span class="p-year">2026</span>
+        </div>
+        <h3>Drone VTOL Otonom — KRTI Belmawa 2026</h3>
+        <div class="p-role">Tim Wisanggeni · Bidang Elektrik &amp; Operasi Lapangan</div>
+        <p class="p-desc">
+          Drone VTOL otonom untuk Kontes Robot Terbang Indonesia. Misi: menavigasi lorong
+          selebar 2 meter, mengambil objek, melewati gate, dan menempatkan muatan pada
+          waypoint. Peran saya: memimpin bidang elektrik sekaligus mengoperasikan drone
+          pada misi otonom.
+        </p>
+        <ul class="p-specs">
+          <li><strong>Arsitektur daya:</strong> LiPo 4S 10.000 mAh 14,8 V → Power Distribution Board → 4× ESC 40 A Hobbywing → 4× T-Motor MN3510 700KV</li>
+          <li><strong>Regulasi bertingkat:</strong> Power Brick 100 A → BEC 5 V 6 A (rail 12 V untuk Jetson), stepdown 5 V 3 A, stepdown 3,3 V</li>
+          <li><strong>Companion computer:</strong> Jetson Orin Nano Super 8GB + LiDAR 2D RPLIDAR C1 via USB</li>
+          <li><strong>Navigasi presisi:</strong> GPS RTK HERE 3+ &amp; HERE 4 dengan antena Beitian — akurasi 1 cm</li>
+          <li><strong>Flight controller:</strong> Orange Cube Pixhawk (ArduPilot/PX4), telemetri 433 MHz, receiver RC i-BUS, rangefinder TF Luna</li>
+          <li><strong>Penyederhanaan sistem:</strong> servo &amp; LED langsung ke Cube, 9 LED terpisah → 2 LED addressable</li>
+          <li><strong>Operasi lapangan:</strong> pre-flight check, arming, monitoring telemetri, pengambilalihan kendali untuk landing</li>
+        </ul>
+      </div>
+      <div class="gallery">
+        <figure class="wide" data-cap="Foto bersama drone VTOL Tim Wisanggeni di panggung penutupan KRTI 2026 — Institut Teknologi Kalimantan. Drone membawa dua receiver GPS RTK (HERE 3+ &amp; HERE 4) di bagian atas, serta modul LiDAR dan companion computer di bagian bawah.">
+          <img src="assets/img/vtol2026-hero-person.jpg" alt="Wildan memegang drone VTOL di panggung KRTI 2026" loading="lazy" />
+          <figcaption>Bersama drone di KRTI 2026</figcaption>
+        </figure>
+        <figure data-cap="Bersama drone di depan backdrop KRTI 2026, Institut Teknologi Kalimantan.">
+          <img src="assets/img/vtol2026-stage.jpg" alt="Berdiri dengan drone di panggung KRTI 2026" loading="lazy" />
+          <figcaption>Panggung penutupan KRTI 2026</figcaption>
+        </figure>
+        <figure data-cap="Drone VTOL KRTI 2026 — dua receiver GPS RTK (HERE 3+ &amp; HERE 4) terpasang di atas, dengan modul LiDAR dan companion computer di bagian bawah.">
+          <img src="assets/img/vtol2026-hero.jpg" alt="Drone VTOL KRTI 2026 tampak depan" loading="lazy" />
+          <figcaption>Dua receiver GPS RTK &amp; modul bawah</figcaption>
+        </figure>
+        <figure data-cap="Tampak atas: susunan empat motor, dua antena GPS RTK, LED indikator, dan mekanisme gripper untuk mengambil objek.">
+          <img src="assets/img/vtol2026-drone-side.jpg" alt="Drone VTOL tampak atas di landasan" loading="lazy" />
+          <figcaption>Tampak atas &amp; gripper</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Desain 3D drone (bidang mekanik). Saya mengerjakan sistem elektrik dan integrasi perangkatnya.">
+          <img src="assets/img/vtol2026-3d.jpg" alt="Render desain 3D drone VTOL" loading="lazy" />
+          <figcaption>Desain 3D (tim mekanik)</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Tabel riset motor: perbandingan T-Motor berdasarkan harga, propeller, baterai, kv, thrust, efisiensi g/W, dan arus. Dasar pemilihan MN3510 700KV.">
+          <img src="assets/img/vtol2026-motor-research.png" alt="Tabel riset motor T-Motor" loading="lazy" />
+          <figcaption>Riset &amp; perbandingan motor</figcaption>
+        </figure>
+        <figure data-cap="Foto drone bersama penghargaan Best Spirit Top 8 Nasional pada arena KRTI 2026.">
+          <img src="assets/img/vtol2026-award.jpg" alt="Drone dengan penghargaan Best Spirit" loading="lazy" />
+          <figcaption>Penghargaan Best Spirit</figcaption>
+        </figure>
+        <figure data-cap="Suasana arena lomba KRTI 2026 — area misi dan jalur penerbangan.">
+          <img src="assets/img/vtol2026-arena.jpg" alt="Arena lomba KRTI 2026" loading="lazy" />
+          <figcaption>Arena lomba</figcaption>
+        </figure>
+        <figure data-cap="Persiapan dan setup drone sebelum misi dijalankan.">
+          <img src="assets/img/vtol2026-setup.jpg" alt="Persiapan drone sebelum misi" loading="lazy" />
+          <figcaption>Setup pra-misi</figcaption>
+        </figure>
+        <figure data-cap="Tim inti Wisanggeni pada KRTI VTOL 2026.">
+          <img src="assets/img/vtol2026-team.jpg" alt="Tim inti Wisanggeni KRTI 2026" loading="lazy" />
+          <figcaption>Tim inti</figcaption>
+        </figure>
+        <figure class="wide" data-cap="Momen penyerahan penghargaan Best Spirit KRTI 2026 di atas podium, bersama bendera Universitas Negeri Malang. Saya berada di posisi kedua dari kiri.">
+          <img src="assets/img/krti2026-penyerahan.jpg" alt="Penyerahan penghargaan Best Spirit KRTI 2026" loading="lazy" />
+          <figcaption>Penyerahan Best Spirit — podium</figcaption>
+        </figure>
+        <figure data-cap="Suasana arena KRTI 2026 saat misi berlangsung.">
+          <img src="assets/img/krti2026-arena2.jpg" alt="Arena KRTI 2026 saat misi" loading="lazy" />
+          <figcaption>Arena saat misi</figcaption>
+        </figure>
+        <figure data-cap="Foto bersama anggota tim Wisanggeni.">
+          <img src="assets/img/krti2026-tim2.jpg" alt="Foto bersama tim Wisanggeni" loading="lazy" />
+          <figcaption>Tim Wisanggeni</figcaption>
+        </figure>
+      </div>
+
+      <div class="video-grid">
+        <figure class="vid">
+          <video src="assets/video/krti2026-lomba.mp4" poster="assets/video/krti2026-lomba-poster.jpg"
+                 preload="none" controls playsinline></video>
+          <img class="vid-poster" src="assets/video/krti2026-lomba-poster.jpg" alt="Video dokumentasi" />
+          <figcaption><b>Video lomba</b>Operasi drone pada misi otonom di arena KRTI 2026 — pre-flight check, arming, dan monitoring telemetri</figcaption>
+        </figure>
+        <figure class="vid">
+          <video src="assets/video/krti2026-seleksi.mp4" poster="assets/video/krti2026-seleksi-poster.jpg"
+                 preload="none" controls playsinline></video>
+          <img class="vid-poster" src="assets/video/krti2026-seleksi-poster.jpg" alt="Video dokumentasi" />
+          <figcaption><b>Video seleksi wilayah</b>Pengujian sistem sebelum maju ke tingkat nasional</figcaption>
+        </figure>
+        <div class="vid-note">Video dimuat hanya saat tombol putar ditekan — menghemat kuota.</div>
+      </div>
+    </article>
+
+    <!-- ===== PROJECT 2 ===== -->
+    <article class="project" data-reveal>
+      <div class="p-head">
+        <div class="p-top">
+          <span class="p-badge b-gold">🥈 Juara 2</span>
+          <span class="p-badge b-blue">Bidang Elektrik</span>
+          <span class="p-year">Desember 2025</span>
+        </div>
+        <h3>Drone Kamikaze Tepat Sasaran — KIDN 2025</h3>
+        <div class="p-role">Tim Kazero · Bidang Elektrik</div>
+        <p class="p-desc">
+          Drone sekali pakai dengan misi menabrak target: terbang 60 meter membawa muatan
+          dummy 750 gram menuju banner sasaran. Peran saya: merancang dan merakit seluruh
+          sistem elektrik, menentukan konfigurasi motor, serta memastikan kelayakan terbang
+          sebelum kompetisi.
+        </p>
+        <ul class="p-specs">
+          <li><strong>Konfigurasi daya:</strong> Baterai 6S 22,2 V → 4× ESC 45 A → 4× motor 1050KV</li>
+          <li><strong>Sistem pendukung:</strong> Power Brick 100 A, fuse, stepdown 5 V, telemetri 433 MHz, receiver 2,4 GHz</li>
+          <li><strong>Perangkat tambahan:</strong> Orange Pi 5 + kamera (pemrosesan citra oleh bidang program)</li>
+          <li><strong>Pencapaian:</strong> Juara 2 KIDN 2025 kategori Tepat Sasaran</li>
+        </ul>
+      </div>
+      <div class="gallery">
+        <figure class="wide doc" data-cap="Diagram blok sistem elektrik drone kamikaze KIDN 2025 — jalur daya, data, dan serial dibedakan dengan warna dan legenda. Baterai 6S 22,2 V → 4× ESC 45 A → 4× motor 1050KV; Power Brick 100 A; stepdown 5 V; Orange Cube Pixhawk; telemetri 433 MHz; receiver 2,4 GHz; Orange Pi 5 + kamera.">
+          <img src="assets/img/kidn2025-blockdiagram.jpg" alt="Diagram blok sistem elektrik drone kamikaze" loading="lazy" />
+          <figcaption>Diagram blok sistem elektrik</figcaption>
+        </figure>
+        <figure class="wide" data-cap="Piagam penghargaan KIDN 2025 — Juara 2 Inovasi Desain Drone Tepat Sasaran, kepada KAZERO UM, pada Kompetisi Inovasi Drone Nasional 2025, 17–18 Desember 2025 di Jakarta.">
+          <img src="assets/img/kidn2025-piagam.jpg" alt="Piagam Juara 2 KIDN 2025" loading="lazy" />
+          <figcaption>Piagam Juara 2 — KAZERO UM</figcaption>
+        </figure>
+        <figure class="wide" data-cap="Bersama tim Kazero dan drone kamikaze di arena KIDN 2025. Saya di kiri, memakai jaket biru bertuliskan nama.">
+          <img src="assets/img/kidn2025-team.jpg" alt="Tim Kazero dengan drone kamikaze KIDN 2025" loading="lazy" />
+          <figcaption>Tim Kazero &amp; drone kamikaze</figcaption>
+        </figure>
+        <figure data-cap="Sertifikat Juara 2 KIDN 2025 kategori Tepat Sasaran atas nama Wildan Rizky Safa Pratama.">
+          <img src="assets/img/kidn2025-certificate.jpg" alt="Sertifikat Juara 2 KIDN 2025" loading="lazy" />
+          <figcaption>Sertifikat Juara 2</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Desain 3D drone kamikaze (bidang mekanik).">
+          <img src="assets/img/kidn2025-3d.jpg" alt="Desain 3D drone kamikaze" loading="lazy" />
+          <figcaption>Desain 3D (tim mekanik)</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Tampak drone kamikaze hasil rakitan — konfigurasi quadcopter dengan muatan dummy di bagian bawah.">
+          <img src="assets/img/kidn2025-drone.jpg" alt="Drone kamikaze KIDN 2025" loading="lazy" />
+          <figcaption>Drone hasil rakitan</figcaption>
+        </figure>
+        <figure data-cap="Proses riset dan perakitan drone di laboratorium.">
+          <img src="assets/img/kidn2025-riset-1.jpg" alt="Proses riset dan perakitan drone" loading="lazy" />
+          <figcaption>Proses riset</figcaption>
+        </figure>
+        <figure data-cap="Detail perakitan dan pengkabelan drone kamikaze.">
+          <img src="assets/img/kidn2025-drone-2.jpg" alt="Detail perakitan drone" loading="lazy" />
+          <figcaption>Detail perakitan</figcaption>
+        </figure>
+        <figure data-cap="Drone kamikaze dari sisi lain — muatan dummy dan sistem elektrik.">
+          <img src="assets/img/kidn2025-drone-3.jpg" alt="Drone kamikaze dari sisi lain" loading="lazy" />
+          <figcaption>Tampak samping</figcaption>
+        </figure>
+        <figure data-cap="Detail drone kamikaze — susunan motor dan jalur kabel daya.">
+          <img src="assets/img/kidn2025-drone-4.jpg" alt="Detail drone kamikaze" loading="lazy" />
+          <figcaption>Detail motor &amp; kabel</figcaption>
+        </figure>
+        <figure data-cap="Drone kamikaze sebelum pengujian terbang.">
+          <img src="assets/img/kidn2025-drone-5.jpg" alt="Drone sebelum pengujian" loading="lazy" />
+          <figcaption>Pra-pengujian</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Diagram blok kedua — susunan jalur daya dan jalur data pada drone kamikaze.">
+          <img src="assets/img/kidn2025-blockdiagram2.jpg" alt="Diagram blok kedua drone kamikaze" loading="lazy" />
+          <figcaption>Diagram blok — detail</figcaption>
+        </figure>
+        <figure data-cap="Suasana riset dan pengujian di laboratorium.">
+          <img src="assets/img/kidn2025-riset-2.jpg" alt="Suasana riset di laboratorium" loading="lazy" />
+          <figcaption>Suasana riset</figcaption>
+        </figure>
+        <figure data-cap="Sesi presentasi ke juri KIDN 2025.">
+          <img src="assets/img/kidn2025-presentasi-1.jpg" alt="Presentasi ke juri KIDN 2025" loading="lazy" />
+          <figcaption>Presentasi ke juri</figcaption>
+        </figure>
+        <figure data-cap="Penjelasan desain dan sistem kepada dewan juri.">
+          <img src="assets/img/kidn2025-presentasi-2.jpg" alt="Penjelasan desain kepada juri" loading="lazy" />
+          <figcaption>Penjelasan desain</figcaption>
+        </figure>
+        <figure class="wide" data-cap="Momen penghargaan di arena KIDN 2025.">
+          <img src="assets/img/kidn2025-award-1.jpg" alt="Momen penghargaan KIDN 2025" loading="lazy" />
+          <figcaption>Momen penghargaan</figcaption>
+        </figure>
+        <figure data-cap="Suasana arena KIDN 2025.">
+          <img src="assets/img/kidn2025-award-2.jpg" alt="Suasana arena KIDN 2025" loading="lazy" />
+          <figcaption>Arena KIDN</figcaption>
+        </figure>
+        <figure data-cap="Drone kamikaze bersama piala dan penghargaan.">
+          <img src="assets/img/kidn2025-award-3.jpg" alt="Drone dengan piala KIDN" loading="lazy" />
+          <figcaption>Drone &amp; piala</figcaption>
+        </figure>
+        <figure data-cap="Dokumentasi penyerahan penghargaan KIDN 2025.">
+          <img src="assets/img/kidn2025-award-4.jpg" alt="Penyerahan penghargaan KIDN 2025" loading="lazy" />
+          <figcaption>Penyerahan penghargaan</figcaption>
+        </figure>
+      </div>
+
+      <div class="video-grid">
+        <figure class="vid">
+          <video src="assets/video/kidn2025-dronevid.mp4" poster="assets/video/kidn2025-dronevid-poster.jpg"
+                 preload="none" controls playsinline></video>
+          <img class="vid-poster" src="assets/video/kidn2025-dronevid-poster.jpg" alt="Video dokumentasi" />
+          <figcaption><b>Video uji terbang</b>Drone kamikaze membawa muatan dummy 750 gram menuju target</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- ===== PROJECT 3 ===== -->
+    <article class="project" data-reveal>
+      <div class="p-head">
+        <div class="p-top">
+          <span class="p-badge b-blue">Bidang Elektrik</span>
+          <span class="p-year">2025</span>
+        </div>
+        <h3>Drone VTOL KRTI 2025 — Papan Kontrol Kustom</h3>
+        <div class="p-role">Tim Kazero · Bidang Elektrik</div>
+        <p class="p-desc">
+          Proyek drone VTOL untuk KRTI 2025 dengan pendekatan <em>custom board</em>:
+          seluruh sensor dan aktuator tambahan dikelola melalui PCB rancangan sendiri.
+          Proyek ini menjadi titik belajar penting — sistem terlalu kompleks, dan pada
+          2026 pendekatannya diubah menjadi lebih sederhana dan andal.
+        </p>
+        <ul class="p-specs">
+          <li><strong>Power Distribution Board:</strong> distribusi daya ke ESC, flight controller, dan beban tambahan (konektor XT60/XT30)</li>
+          <li><strong>Mission Control Board V1:</strong> berbasis ESP32-C3</li>
+          <li><strong>Mission Control Board V2:</strong> integrasi 4 sensor ultrasonik untuk pengukuran jarak empat arah</li>
+          <li><strong>Mission Control Board V3:</strong> pengembangan dengan sensor Time-of-Flight</li>
+          <li><strong>LED Driver Board:</strong> pengendali 9 LED indikator</li>
+          <li><strong>Flight controller:</strong> Orange Cube Pixhawk + power module, konfigurasi via Mission Planner</li>
+        </ul>
+      </div>
+      <div class="gallery">
+        <figure class="wide doc" data-cap="Skematik Power Distribution Board — detail jalur daya dan pembagi tegangan per kanal.">
+          <img src="assets/img/krti2025-pdb-sch.jpg" alt="Skematik Power Distribution Board detail" loading="lazy" />
+          <figcaption>Skematik PDB — detail</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Skematik Power Distribution Board — jalur daya utama ke ESC, flight controller, dan beban tambahan menggunakan konektor XT60/XT30.">
+          <img src="assets/img/kazero2025-pdb.png" alt="Skematik Power Distribution Board" loading="lazy" />
+          <figcaption>Skematik Power Distribution Board</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Mission Control Board V2 — papan kontrol berbasis ESP32 dengan integrasi empat sensor ultrasonik untuk pengukuran jarak empat arah.">
+          <img src="assets/img/kazero2025-mcb.png" alt="Mission Control Board V2" loading="lazy" />
+          <figcaption>Mission Control Board V2</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Mission Control Board V2 — tampak 3D. ESP32-C3 dengan empat konektor sensor ultrasonik, regulator 5 V, dan konektor utama.">
+          <img src="assets/img/krti2025-mcb-v2-3d.jpg" alt="Mission Control Board V2 tampak 3D" loading="lazy" />
+          <figcaption>MCB V2 — tampak 3D</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Mission Control Board V3 — tampak 3D. Pengembangan dengan sensor Time-of-Flight (VL53L0X) menggantikan ultrasonik untuk pengukuran lebih presisi.">
+          <img src="assets/img/krti2025-mcb-v3-3d.jpg" alt="Mission Control Board V3 tampak 3D" loading="lazy" />
+          <figcaption>MCB V3 (ToF) — 3D</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Skematik Mission Control Board V3 — ESP32-C3, sensor Time-of-Flight, dan konektor antarmuka.">
+          <img src="assets/img/krti2025-mcb-v3-sch.jpg" alt="Skematik Mission Control Board V3" loading="lazy" />
+          <figcaption>Skematik MCB V3</figcaption>
+        </figure>
+        <figure class="pcb wide doc" data-cap="LED Driver Board — tampak 3D. Papan pengendali 9 LED indikator dengan resistor pembatas arus per kanal.">
+          <img src="assets/img/krti2025-led-driver-3d.jpg" alt="LED Driver Board tampak 3D" loading="lazy" />
+          <figcaption>LED Driver Board — 3D</figcaption>
+        </figure>
+        <figure class="wide" data-cap="Tim Kazero bersama drone VTOL KRTI 2025 di Universitas Negeri Malang.">
+          <img src="assets/img/krti2025-team.jpg" alt="Tim Kazero dengan drone VTOL 2025" loading="lazy" />
+          <figcaption>Tim Kazero &amp; drone VTOL 2025</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- ===== PROJECT 4 ===== -->
+    <article class="project" data-reveal>
+      <div class="p-head">
+        <div class="p-top">
+          <span class="p-badge b-green">Head Senior Electric</span>
+          <span class="p-year">Januari — April 2026</span>
+        </div>
+        <h3>Robot Tematik KRTMI — Arsitektur Master–Slave</h3>
+        <div class="p-role">Tim Wisanggeni · Bidang Elektrik</div>
+        <p class="p-desc">
+          Robot tematik untuk Kontes Robot Tematik Indonesia (KRTMI). Peran saya:
+          memimpin bidang elektrik sekaligus merancang arsitektur dua papan kontrol
+          — <strong>Master</strong> dan <strong>Slave</strong> — yang terhubung melalui bus IDC 8-pin,
+          dengan pembacaan arus dan encoder per motor untuk visual odometri.
+        </p>
+        <ul class="p-specs">
+          <li><strong>Arsitektur Master–Slave:</strong> dua PCB kontrol terpisah, berkomunikasi lewat bus IDC 8-pin — memisahkan beban komputasi dan aktuator</li>
+          <li><strong>Papan MASTER:</strong> ESP32-S3 DevKitC-10, IMU MPU6050, 4× IDC 8-pin untuk motor, sensor tegangan pada 6 kanal, regulator 5 V, dan konektor komunikasi</li>
+          <li><strong>Papan SLAVE:</strong> ESP32-S3 DevKitC-10, 4× IDC 8-pin, pembacaan tegangan 6 kanal, sensor line follower, dan kontrol vakum berbasis MOSFET IRLZ44N</li>
+          <li><strong>Motor driver:</strong> 4× BTS7960 dengan fitur penuh — PWM, on/off, pembacaan arus, dan pembacaan encoder per motor</li>
+          <li><strong>Sensor:</strong> IMU MPU6050 untuk koreksi orientasi, line follower untuk navigasi dasar</li>
+          <li><strong>Sistem vakum:</strong> kontrol MOSFET IRLZ44N dengan tombol manual dan indikator</li>
+          <li><strong>Hasil pengujian:</strong> robot bergerak lurus dengan koreksi gyro dan encoder, data siap divisualisasikan sebagai odometri</li>
+          <li><strong>Catatan:</strong> riset terhenti karena kategori KRTMI tidak diadakan pada periode tersebut</li>
+        </ul>
+      </div>
+
+      <div class="gallery">
+        <figure class="pcb wide" data-cap="PCB Master V1 — tampak 3D. Papan utama yang menangani IMU, komunikasi, dan distribusi perintah ke papan slave.">
+          <img src="assets/img/krtmi-master-v1-3d.jpg" alt="PCB Master V1 tampak 3D" loading="lazy" />
+          <figcaption>Master V1 — tampak 3D</figcaption>
+        </figure>
+        <figure data-cap="Skematik Master V1 — ESP32-S3 DevKitC-10, MPU6050, 4× IDC 8-pin, pembagi tegangan 6 kanal, regulator 5 V, reset button, dan konektor komunikasi.">
+          <img src="assets/img/krtmi-master-v1-sch.jpg" alt="Skematik PCB Master V1" loading="lazy" />
+          <figcaption>Skematik Master V1</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Layout PCB Master V1 — penempatan komponen dan jalur sinyal.">
+          <img src="assets/img/krtmi-master-v1-layout.jpg" alt="Layout PCB Master V1" loading="lazy" />
+          <figcaption>Layout Master V1</figcaption>
+        </figure>
+
+        <figure class="wide" data-cap="Skematik PCB Master V2 — revisi dengan penambahan sensor tegangan dan perbaikan routing komunikasi.">
+          <img src="assets/img/krtmi-master-v2-sch.jpg" alt="Skematik PCB Master V2" loading="lazy" />
+          <figcaption>Skematik Master V2</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="PCB Master V2 — tampak 3D.">
+          <img src="assets/img/krtmi-master-v2-3d.jpg" alt="PCB Master V2 tampak 3D" loading="lazy" />
+          <figcaption>Master V2 — tampak 3D</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Layout PCB Master V2.">
+          <img src="assets/img/krtmi-master-v2-layout.jpg" alt="Layout PCB Master V2" loading="lazy" />
+          <figcaption>Layout Master V2</figcaption>
+        </figure>
+
+        <figure class="wide doc" data-cap="Skematik PCB Slave — ESP32-S3 DevKitC-10, 4× IDC 8-pin, pembacaan tegangan 6 kanal, sensor line follower, kontrol vakum MOSFET IRLZ44N, regulator 5 V, dan tombol reset.">
+          <img src="assets/img/krtmi-slave-sch.jpg" alt="Skematik PCB Slave" loading="lazy" />
+          <figcaption>Skematik PCB Slave</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="PCB Slave — tampak 3D.">
+          <img src="assets/img/krtmi-slave-3d.jpg" alt="PCB Slave tampak 3D" loading="lazy" />
+          <figcaption>Slave — tampak 3D</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Layout PCB Slave.">
+          <img src="assets/img/krtmi-slave-layout.jpg" alt="Layout PCB Slave" loading="lazy" />
+          <figcaption>Layout Slave</figcaption>
+        </figure>
+
+        <figure class="wide" data-cap="Robot tematik hasil rakitan — empat motor PG45 dengan roda omni, dua PCB kontrol bertumpuk di rangka akrilik, dan jalur kabel rapi antar papan.">
+          <img src="assets/img/krtmi-robot-1.jpg" alt="Robot tematik KRTMI hasil rakitan" loading="lazy" />
+          <figcaption>Robot hasil rakitan</figcaption>
+        </figure>
+        <figure class="portrait" data-cap="Detail papan kontrol dan pengkabelan pada robot tematik.">
+          <img src="assets/img/krtmi-robot-2.jpg" alt="Detail papan kontrol robot tematik" loading="lazy" />
+          <figcaption>Detail papan &amp; kabel</figcaption>
+        </figure>
+        <figure class="portrait" data-cap="Tampak lain robot tematik saat pengujian di laboratorium.">
+          <img src="assets/img/krtmi-robot-3.jpg" alt="Robot tematik saat pengujian" loading="lazy" />
+          <figcaption>Pengujian di lab</figcaption>
+        </figure>
+      </div>
+
+      <div class="video-grid">
+        <figure class="vid">
+          <video src="assets/video/krtmi-uji-1.mp4" poster="assets/video/krtmi-uji-1-poster.jpg"
+                 preload="none" controls playsinline></video>
+          <img class="vid-poster" src="assets/video/krtmi-uji-1-poster.jpg" alt="Video dokumentasi" />
+          <figcaption><b>Video</b>Pengujian gerak robot tematik</figcaption>
+        </figure>
+        <figure class="vid">
+          <video src="assets/video/krtmi-uji-2.mp4" poster="assets/video/krtmi-uji-2-poster.jpg"
+                 preload="none" controls playsinline></video>
+          <img class="vid-poster" src="assets/video/krtmi-uji-2-poster.jpg" alt="Video dokumentasi" />
+          <figcaption><b>Video</b>Uji pergerakan dan koreksi arah</figcaption>
+        </figure>
+      </div>
+    </article>
+
+    <!-- ===== PROJECT 5 ===== -->
+    <article class="project" data-reveal>
+      <div class="p-head">
+        <div class="p-top">
+          <span class="p-badge b-blue">Bidang Elektrik</span>
+          <span class="p-year">Des 2024 — Jul 2025</span>
+        </div>
+        <h3>Robot Bawah Air — Tiga Generasi Sistem Keselamatan</h3>
+        <div class="p-role">Tim Mizuro · Anggota Tim Riset</div>
+        <p class="p-desc">
+          Robot bawah air (ROV) dengan papan rangkaian yang dirancang dari nol, dan
+diembangkan melalui tiga generasi. Proyek ini menjadi titik awal pendalaman
+elektronika: mempelajari sistem propulsi bawah air secara otodidak, dari motor
+BLDC tiga fasa hingga ESC dan sistem keselamatan.
+        </p>
+        <ul class="p-specs">
+          <li><strong>V1 — auto-cutoff tanpa mikrokontroler:</strong> sistem pemutus tegangan berbasis rangkaian diskret. Pembagi tegangan → transistor BC547 → TIP41C → relay SRD-5VDC, dengan regulator VX7805 dan dioda flyback 1N4007</li>
+          <li><strong>V2 — dengan mikrokontroler:</strong> logika pemutusan dipindahkan ke mikrokontroler sehingga ambang tegangan bisa diatur lewat perangkat lunak, bukan hanya per komponen</li>
+          <li><strong>New Generation — penuh:</strong> basis ESP32-S3 DevKitC-10 dengan <em>logic relay</em> (RA-5W-K) yang menunjang fitur cutoff, plus <strong>pembacaan arus</strong> (sensor ACS712ELCTR melalui ADC ADS1115) dan <strong>pembacaan tegangan</strong> untuk pemantauan kondisi baterai secara real-time</li>
+          <li><strong>Arsitektur daya:</strong> baterai LiPo 6S → fuse → Power Brick → Power Distribution → 6× ESC → 6× motor BLDC bawah air; Power Brick juga memberi UBEC 12 V untuk Jetson Orin Nano</li>
+          <li><strong>Arsitektur sinyal:</strong> kamera → USB → Jetson Orin Nano → USB (komunikasi dua arah) → Orange Cube → PWM ke ESC dan I2C ke sensor ultrasonik bawah air; Jetson terhubung ke permukaan lewat kabel LAN</li>
+          <li><strong>Propulsi:</strong> 6 motor BLDC 3-fasa + ESC, dipelajari mandiri dari nol</li>
+        </ul>
+      </div>
+
+      <div class="gallery">
+        <figure class="wide doc" data-cap="Diagram blok ELECTRICAL POWER robot bawah air — baterai LiPo 6S → fuse → Power Brick → Power Distribution → 6× ESC → 6× motor BLDC. Power Brick juga memberi daya ke UBEC 12 V yang menyalakan Jetson Orin Nano, dengan jalur MOSFET, button, dan logika PNP untuk on/off.">
+          <img src="assets/img/mizuro-diagram-power.jpg" alt="Diagram blok electrical power robot bawah air" loading="lazy" />
+          <figcaption>Diagram blok — Electrical Power</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Diagram blok ARSITEKTUR SINYAL — kamera terhubung ke Jetson Orin Nano lewat USB, Jetson berkomunikasi dua arah dengan Orange Cube lewat USB, lalu Orange Cube mengirim PWM ke ESC dan membaca sensor ultrasonik bawah air lewat I2C. Komunikasi ke permukaan melalui kabel LAN.">
+          <img src="assets/img/mizuro-diagram-signal.jpg" alt="Diagram blok arsitektur sinyal robot bawah air" loading="lazy" />
+          <figcaption>Diagram blok — Arsitektur Sinyal</figcaption>
+        </figure>
+      </div>
+
+      <div class="subhead">
+        <h4>Generasi 1 — Auto-cutoff Tanpa Mikrokontroler</h4>
+      </div>
+      <div class="gallery">
+        <figure class="pcb" data-cap="PCB Cutoff V1 — tampak 3D. Rangkaian pemutus tegangan berbasis komponen diskret, tanpa mikrokontroler.">
+          <img src="assets/img/mizuro-pcb-v1-3d.jpg" alt="PCB Cutoff V1 tampak 3D" loading="lazy" />
+          <figcaption>V1 — tampak 3D</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Skematik PCB Cutoff V1 — pembagi tegangan berbasis resistor, transistor BC547 sebagai pembanding, TIP41C sebagai penggerak relay SRD-5VDC, regulator VX7805, dan dioda flyback 1N4007. Ambang pemutusan ditentukan oleh nilai komponen.">
+          <img src="assets/img/mizuro-pcb-v1-sch.jpg" alt="Skematik PCB Cutoff V1" loading="lazy" />
+          <figcaption>Skematik V1</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Layout PCB Cutoff V1.">
+          <img src="assets/img/mizuro-pcb-v1-layout.jpg" alt="Layout PCB Cutoff V1" loading="lazy" />
+          <figcaption>Layout V1</figcaption>
+        </figure>
+      </div>
+
+      <div class="subhead">
+        <h4>Generasi 2 — Dengan Mikrokontroler</h4>
+      </div>
+      <div class="gallery">
+        <figure class="pcb" data-cap="PCB Cutoff V2 — tampak 3D. Logika pemutusan dipindahkan ke mikrokontroler sehingga ambang tegangan lebih fleksibel.">
+          <img src="assets/img/mizuro-pcb-v2-3d.jpg" alt="PCB Cutoff V2 tampak 3D" loading="lazy" />
+          <figcaption>V2 — tampak 3D</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Skematik PCB Cutoff V2 — mikrokontroler membaca tegangan baterai dan mengendalikan relay. Ambang cutoff dapat diatur lewat program, tidak lagi terikat nilai komponen.">
+          <img src="assets/img/mizuro-pcb-v2-sch.jpg" alt="Skematik PCB Cutoff V2" loading="lazy" />
+          <figcaption>Skematik V2</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Layout PCB Cutoff V2.">
+          <img src="assets/img/mizuro-pcb-v2-layout.jpg" alt="Layout PCB Cutoff V2" loading="lazy" />
+          <figcaption>Layout V2</figcaption>
+        </figure>
+      </div>
+
+      <div class="subhead">
+        <h4>New Generation — Baca Arus &amp; Baca Tegangan</h4>
+      </div>
+      <div class="gallery">
+        <figure class="pcb" data-cap="PCB New Generation — tampak 3D. Basis ESP32-S3 DevKitC-10 dengan relay logika, sensor arus, dan pembacaan tegangan.">
+          <img src="assets/img/mizuro-pcb-ng-3d.jpg" alt="PCB New Generation tampak 3D" loading="lazy" />
+          <figcaption>New Gen — tampak 3D</figcaption>
+        </figure>
+        <figure class="wide doc" data-cap="Skematik PCB New Generation — ESP32-S3 DevKitC-10 sebagai pengendali utama; ADS1115 sebagai analog extender; relay RA-5W-K untuk LOGIC ON/OFF; sensor arus ACS712ELCTR; pembacaan tegangan lewat pembagi resistor; regulator 5 V VX7805; serta konektor input dan output motor.">
+          <img src="assets/img/mizuro-pcb-ng-sch.jpg" alt="Skematik PCB New Generation" loading="lazy" />
+          <figcaption>Skematik New Generation</figcaption>
+        </figure>
+        <figure class="pcb" data-cap="Layout PCB New Generation.">
+          <img src="assets/img/mizuro-pcb-ng-layout.jpg" alt="Layout PCB New Generation" loading="lazy" />
+          <figcaption>Layout New Generation</figcaption>
+        </figure>
+        <figure data-cap="Skematik Rain Safety Controller revisi 3 — sistem deteksi kebocoran air pada enclosure robot bawah air.">
+          <img src="assets/img/mizuro-rain-v3.png" alt="Skematik Rain Safety Controller revisi 3" loading="lazy" />
+          <figcaption>Rain Safety Controller (Rev. 3)</figcaption>
+        </figure>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ================= AWARDS ================= -->
+<section id="awards">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow">Prestasi</div>
+      <h2 class="sec-title">Penghargaan &amp; pencapaian</h2>
+      <p class="sec-sub">Kompetisi tingkat nasional di bidang kedirgantaraan dan robotika.</p>
+    </div>
+
+    <div class="awards-grid">
+      <div class="award" data-reveal>
+        <div class="medal">🥈</div>
+        <h3>Juara 2 — KIDN 2025</h3>
+        <p>Kategori Tepat Sasaran. Drone kamikaze dengan muatan dummy 750 gram, terbang 60 meter menuju target. Tim Kazero.</p>
+        <span class="yr">Desember 2025</span>
+      </div>
+
+      <div class="award" data-reveal>
+        <div class="medal">🏅</div>
+        <h3>Best Spirit — Top 8 Nasional</h3>
+        <p>KRTI VTOL 2026 (KRTI Belmawa). Drone VTOL otonom dengan navigasi GPS RTK akurasi 1 cm. Tim Wisanggeni.</p>
+        <span class="yr">2026</span>
+      </div>
+
+      <div class="award" data-reveal>
+        <div class="medal">🎯</div>
+        <h3>Partisipan Seleksi Wilayah KRTI</h3>
+        <p>KRTI VTOL 2025. Sistem elektrik dengan PCB kustom untuk sensor dan aktuator. Tim Kazero.</p>
+        <span class="yr">2025</span>
+      </div>
+
+      <div class="award" data-reveal>
+        <div class="medal">🛩️</div>
+        <h3>Junior Remote Pilot — FASI</h3>
+        <p>Aeronautical Knowledge Course untuk Small UAS, compliant DGCA CASR Part 107. Skor ujian 95. Federasi Aero Sport Indonesia.</p>
+        <span class="yr">Agustus 2025 · ID 20260936-JRPFASI</span>
+      </div>
+    </div>
+
+    <!-- ===== SERTIFIKAT (dokumen asli) ===== -->
+    <div class="sec-head" style="margin-top:52px; margin-bottom:24px;" data-reveal>
+      <div class="eyebrow">Dokumen</div>
+      <h3 class="sec-title" style="font-size:clamp(1.25rem,2.6vw,1.6rem);">Sertifikat</h3>
+      <p class="sec-sub">Klik gambar untuk memperbesar dan membaca detailnya.</p>
+    </div>
+
+    <div class="gallery cert-gallery" data-reveal>
+      <figure class="doc wide" data-cap="Sertifikat Junior Remote Pilot — Aeronautical Knowledge Course, diterbitkan Federasi Aero Sport Indonesia (FASI) UAV-Drone Committee, Jakarta. ID Kredensial 20260936-JRPFASI, ditandatangani Marsma TNI (Purn) Agung Sasongkojati MA.Sc., M.S.S. Compliant DGCA CASR Part 107 dan FAI Sporting Code Section 12.">
+        <img src="assets/img/cert-fasi-utuh.jpg" alt="Sertifikat Junior Remote Pilot FASI" loading="lazy" />
+        <figcaption>Sertifikat FASI — Junior Remote Pilot</figcaption>
+      </figure>
+      <figure class="doc wide" data-cap="Lembar materi Aeronautical Knowledge Course 1-2025 — 10 modul yang ditempuh: CASR Part 61 &amp; 91, CASR Part 107, PM 37/2020, perizinan ruang udara, aerodinamika, meteorologi, ADM &amp; CRM, KKOP &amp; VFR Routes, risk assessment, serta pre-flight inspection. Skor ujian: 95.">
+        <img src="assets/img/cert-fasi-materi.jpg" alt="Silabus Aeronautical Knowledge Course FASI" loading="lazy" />
+        <figcaption>Materi kursus &amp; skor ujian</figcaption>
+      </figure>
+    </div>
+
+    <div class="cert-note" data-reveal>
+      <strong>Catatan kejujuran:</strong> sertifikat ini diterbitkan <strong>Federasi Aero Sport Indonesia (FASI)</strong> —
+      federasi olahraga dirgantara di bawah Kemenpora/KONI — <em>bukan</em> Remote Pilot Certificate (RPC)
+      dari DKPPU Kemenhub. Materinya mengacu regulasi DGCA CASR Part 107, namun merupakan
+      sertifikat penyelesaian kursus pengetahuan aeronautika, bukan lisensi operasi komersial.
+    </div>
+  </div>
+</section>
+
+<!-- ================= CV / UNDUHAN ================= -->
+<section id="cv">
+  <div class="wrap">
+    <div class="sec-head" data-reveal>
+      <div class="eyebrow">Curriculum Vitae</div>
+      <h2 class="sec-title">Lihat &amp; unduh CV</h2>
+      <p class="sec-sub">Tersedia dua versi: dokumen lengkap untuk dibaca manusia, dan versi ATS untuk portal lamaran otomatis.</p>
+    </div>
+
+    <div class="cv-grid">
+      <article class="cv-card" data-reveal>
+        <div class="cv-icon">📋</div>
+        <span class="cv-badge">Untuk dibaca</span>
+        <h3>CV Lengkap</h3>
+        <p class="cv-desc">
+          Format berwarna dengan tata letak dua kolom: profil, seluruh pengalaman kerja,
+          keahlian terkelompok, sertifikasi, dan penghargaan. Versi ini paling nyaman
+          dibaca recruiter dan bisa langsung dicetak.
+        </p>
+        <div class="cv-actions">
+          <a class="cv-btn cv-btn-primary" href="cv.html" target="_blank" rel="noopener">👁️ Lihat CV</a>
+          <a class="cv-btn" href="CV_Wildan_Rizky_Safa_Pratama.pdf" download>⬇️ Unduh PDF</a>
+        </div>
+        <div class="cv-meta">PDF · 3 halaman · 264 KB</div>
+      </article>
+
+      <article class="cv-card" data-reveal>
+        <div class="cv-icon">🤖</div>
+        <span class="cv-badge alt">Untuk sistem ATS</span>
+        <h3>CV ATS</h3>
+        <p class="cv-desc">
+          Teks polos tanpa kolom, tabel, grafik, maupun foto — agar terbaca sempurna oleh
+          <em>Applicant Tracking System</em>. Gunakan versi ini saat melamar lewat portal
+          lowongan online.
+        </p>
+        <div class="cv-actions">
+          <a class="cv-btn cv-btn-primary" href="cv-ats.html" target="_blank" rel="noopener">👁️ Lihat CV ATS</a>
+          <a class="cv-btn" href="CV_ATS_Wildan_Rizky_Safa_Pratama.pdf" download>⬇️ Unduh PDF</a>
+          <a class="cv-btn" href="CV_ATS_Wildan_Rizky_Safa_Pratama.txt" download>⬇️ Teks</a>
+        </div>
+        <div class="cv-meta">PDF · 3 halaman · 34 KB &nbsp;·&nbsp; TXT · 8,6 KB</div>
+      </article>
+    </div>
+
+    <div class="dl-strip" data-reveal>
+      <div>
+        <strong>Portofolio lengkap</strong>
+        <span>19 halaman — seluruh proyek, skematik, dan dokumentasi</span>
+      </div>
+      <a class="cv-btn" href="Portofolio_Wildan_Rizky_Safa_Pratama.pdf" download>⬇️ Unduh PDF</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT ================= -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-box" data-reveal>
+      <div class="eyebrow" style="justify-content:center;">Kontak</div>
+      <h2>Mari berdiskusi</h2>
+      <p>
+        Terbuka untuk peluang sebagai Electrical Engineer, Hardware Engineer,
+        Systems Engineer, maupun Project Engineer — serta terbuka untuk belajar
+        bidang baru di luar jalur yang sudah saya tekuni.
+      </p>
+      <div class="contact-links">
+        <a class="c-link" href="mailto:wildanrizkysafapratama@gmail.com">
+          ✉️ wildanrizkysafapratama@gmail.com
+        </a>
+        <a class="c-link" href="https://wa.me/6287850258424" target="_blank" rel="noopener">
+          💬 +62 878-5025-8424
+        </a>
+        <a class="c-link" href="https://www.linkedin.com/in/wildan-rizky-safa-pratama-bb2b0541b/" target="_blank" rel="noopener">
+          💼 LinkedIn
+        </a>
+        <a class="c-link" href="#">
+          📍 Malang, Jawa Timur
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<div class="wrap">
+  <footer>
+    <div>© <span id="yr"></span> Wildan Rizky Safa Pratama — Teknik Elektro, Universitas Negeri Malang</div>
+    <div>Dibangun dengan HTML &amp; CSS. Siap dipublikasikan di GitHub Pages.</div>
+  </footer>
+</div>
+
+<!-- ================= LIGHTBOX ================= -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Pratinjau gambar">
+  <button class="lb-close" id="lbClose" aria-label="Tutup">✕</button>
+  <div>
+    <img id="lbImg" src="" alt="" />
+    <div class="lb-cap" id="lbCap"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- Tahun footer ---------- */
+  document.getElementById("yr").textContent = new Date().getFullYear();
+
+  /* ---------- Nav: shadow saat scroll ---------- */
+  var nav = document.getElementById("nav");
+  var links = document.getElementById("navLinks");
+  var burger = document.getElementById("burger");
+
+  function onScroll(){
+    nav.classList.toggle("scrolled", window.scrollY > 24);
+  }
+  window.addEventListener("scroll", onScroll, { passive:true });
+  onScroll();
+
+  /* ---------- Mobile menu ---------- */
+  burger.addEventListener("click", function(){
+    var open = links.classList.toggle("open");
+    burger.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  links.addEventListener("click", function(e){
+    if (e.target.tagName === "A") {
+      links.classList.remove("open");
+      burger.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  /* ---------- Reveal on scroll ---------- */
+  var revealEls = document.querySelectorAll("[data-reveal]");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) {
+          en.target.classList.add("in");
+          io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -40px 0px" });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add("in"); });
+  }
+
+  /* ---------- Scrollspy ---------- */
+  var sections = ["about","skills","experience","projects","awards","cv","contact"];
+  var navA = Array.prototype.slice.call(links.querySelectorAll('a[href^="#"]'));
+  if ("IntersectionObserver" in window) {
+    var spy = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (!en.isIntersecting) return;
+        var id = en.target.id;
+        navA.forEach(function(a){
+          a.classList.toggle("active", a.getAttribute("href") === "#" + id);
+        });
+      });
+    }, { threshold: 0.01, rootMargin: "-45% 0px -50% 0px" });
+    sections.forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) spy.observe(el);
+    });
+  }
+
+  /* ---------- Lightbox ---------- */
+  var lb = document.getElementById("lb");
+  var lbImg = document.getElementById("lbImg");
+  var lbCap = document.getElementById("lbCap");
+  var lbClose = document.getElementById("lbClose");
+
+  document.querySelectorAll(".gallery figure").forEach(function(fig){
+    fig.addEventListener("click", function(){
+      var img = fig.querySelector("img");
+      if (!img) return;
+      lbImg.src = img.src;
+      lbImg.alt = img.alt || "";
+      lbCap.textContent = fig.getAttribute("data-cap") || img.alt || "";
+      lb.classList.add("open");
+      document.body.style.overflow = "hidden";
+    });
+  });
+
+  function closeLb(){
+    lb.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+  lbClose.addEventListener("click", closeLb);
+  lb.addEventListener("click", function(e){
+    if (e.target === lb || e.target === lbImg) closeLb();
+  });
+  document.addEventListener("keydown", function(e){
+    if (e.key === "Escape" && lb.classList.contains("open")) closeLb();
+  });
+})();
+</script>
+</body>
+</html>
